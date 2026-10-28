@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import { SearchWiki } from "../functions/searchwiki"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 
 export default function SideBar({ isopen, setopening, color, animate, setReadyToAnimate }) {
     const locale = useLocale()
     const [input, setinput] = useState("")
     const [error, detectError] = useState(false)
+    const t = useTranslations('sidebar')
 
     return (
         <>
@@ -26,7 +27,7 @@ export default function SideBar({ isopen, setopening, color, animate, setReadyTo
                             setReadyToAnimate(true)}}>X</button>
                         <div>
                             <div className="relative flex w-full max-w-md">
-                                <div className="absolute inset-y-0 left-0 flex items-center pl-3" onClick={(e) => {
+                                <div className={`absolute inset-y-0 ${locale == 'en' ? 'pl-3' : 'pr-3'} flex items-center`} onClick={(e) => {
                                     e.preventDefault()
                                     SearchWiki(input, locale, [error, detectError])
                                     }}>
@@ -47,9 +48,9 @@ export default function SideBar({ isopen, setopening, color, animate, setReadyTo
 
                                 <input
                                     type="search"
-                                    placeholder={!error ? 'search october war related topic' : 'write something before searching'}
+                                    placeholder={!error ? t('inputText') : 'write something before searching'}
                                     aria-label="Search"
-                                    className={`w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-full text-gray-900 ${error ? 'placeholder-red-700' :'placeholder-gray-400'} leading-6 placeholder:text-[10px] text-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200`}
+                                    className={`w-full ${locale == 'en' ? 'pl-10 pr-4' : 'pl-4 pr-10'} py-2 bg-white border border-gray-300 rounded-full text-gray-900 ${error ? 'placeholder-red-700' :'placeholder-gray-400'} leading-6 placeholder:text-[10px] text-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200`}
                                     value={input}
                                     onChange={(e) => setinput(e.target.value)}
                                 />

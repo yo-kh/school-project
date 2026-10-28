@@ -1,5 +1,8 @@
 {
-    "Home": {
-        "title": "اهلا"
+    "Homepage" : {
+        "title" : "حرب أكتوبر المجيدة"
+    },
+    "sidebar" : {
+        "inputText" : ""
     }
 }

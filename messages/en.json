@@ -1,5 +1,8 @@
 {
-    "Home": {
-        "title": "hhhhhhhhhhhhh"
+    "Homepage" : {
+        "title" : "The Glorious October War"
+    },
+    "sidebar" : {
+        "inputText" : "search october war related topic"
     }
 }
