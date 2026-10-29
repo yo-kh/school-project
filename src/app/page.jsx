@@ -2,8 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 
 export default function Home() {
+  const locale = useLocale()
   const t = useTranslations("Homepage");
   const [bgImage, setBgImage] = useState(
     "Egyptian October War Tribute desktop.png",
@@ -62,26 +64,52 @@ export default function Home() {
                 and unity could change the course of history.
               </p>
             </div>
-            <img src="october war victory.jpg" alt="october war victory" className="md:w-100"/>
+            <img
+              src="october war victory.jpg"
+              alt="october war victory"
+              className="md:w-100"
+            />
           </div>
           <div>
             <h2 className="text-2xl font-bold pb-2">
               How did that even begin?
             </h2>
-            <p className="md:text-lg">
-              In the summer of 1967, Egypt faced one of the most difficult
-              moments in its modern history which is the the six days war.
-              Tensions across the Middle East had been rising, and on June 5,
-              war broke out between Israel and several Arab countries, including
-              Egypt. The conflict moved quickly, and within six days, Israeli
-              forces had captured the Sinai Peninsula, reaching the Suez Canal.
-              For Egyptians, the defeat brought deep sorrow and the loss of a
-              significant part of their land. Yet, behind this difficult moment,
-              a new determination began to grow: Egypt would rebuild its armed
-              forces and continue its efforts to recover Sinai. The events of
-              1967 marked the beginning of a long journey that would shape the
-              years leading to the October War.
-            </p>
+            <div className="flex flex-row gap-2">
+              <p className="w-fit md:w-auto text-sm md:text-lg">
+                In June 1967, Egypt and several other Arab countries fought
+                against Israel in a conflict known as the Naksa, or the Six-Day
+                War. The war began on June 5, 1967, when Israel launched a
+                surprise attack against Egyptian airfields and destroyed many
+                Egyptian aircraft on the ground. This attack seriously weakened
+                the Egyptian army and contributed to a major military defeat.
+                Within six days, Israel occupied the Sinai Peninsula and the
+                Gaza Strip, as well as other Arab territories. The news of the
+                defeat spread quickly and caused great sadness among the
+                Egyptian people. Many Egyptians felt disappointed because their
+                country had lost important land in such a short period. However,
+                the Naksa was not the end of Egypt's efforts to recover its
+                territory. Instead, it became a turning point in Egyptian
+                history and taught the country important lessons about military
+                preparation, planning, and the need for strong armed forces.
+                After the war, Egypt began rebuilding its army, improving its
+                weapons and training, and preparing for future battles. Egyptian
+                soldiers worked hard to become stronger and more experienced.
+                The country also began taking steps to challenge the Israeli
+                occupation of Sinai. These efforts led to the War of Attrition
+              </p>
+              <div>
+                <figure className="w-fit md:w-max md:h-max">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrWnM9L2mcrMSO9T2r20Ho75gl1t7UUDRYwKcLxKmlJw&s=10"
+                    alt=""
+                  />
+                  <figcaption className="text-xs text-center">
+                    A picture of the occupied part pf the middle east back then
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+            <video src={locale == 'en' ? 'sixday_war_en.mp4' : 'sixday_war_ar.mp4'}></video>
           </div>
         </div>
       </section>
