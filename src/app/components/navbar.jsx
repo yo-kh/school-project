@@ -1,5 +1,5 @@
 'use client'
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Translate } from "../functions/translate";
 import { useEffect, useState } from "react";
 import SideBar from "./sidebar";
@@ -10,6 +10,7 @@ export default function NavBar() {
     const [isPastScreenHeight, setIsPastScreenHeight] = useState(false)
     const [open, setOpen] = useState(false)
     const [animate, setReadyToAnimate] = useState(false)
+    const t = useTranslations("NavBar")
 
     useEffect(() => {
         let lastScrollY = window.scrollY
@@ -58,8 +59,8 @@ export default function NavBar() {
 
     return (
         <>
-            <nav className={`fixed top-0 z-30 ${isVisible ? "translate-y-0" : "-translate-y-full"} ${isPastScreenHeight ? 'bg-black opacity-50' : ''} transition-all duration-700 flex w-full justify-between items-center p-5`}>
-                <div className="text-2xl font-bold bg-linear-to-b from-[#CE1126] via-[#FFFFFF] to-[#000000] bg-clip-text text-transparent cursor-default">Glory 73</div>
+            <nav className={`fixed top-0 z-30 ${isVisible ? "translate-y-0" : "-translate-y-full"} ${isPastScreenHeight ? 'bg-black opacity-80' : ''} transition-all duration-700 flex w-full justify-between items-center p-5`}>
+                <a className="text-2xl font-bold bg-linear-to-b from-[#CE1126] via-[#FFFFFF] to-[#000000] bg-clip-text text-transparent" href="/">{t('title')}</a>
                 <div className="flex items-center gap-5">
                     <button className={`uppercase text-lg ${isPastScreenHeight ? 'text-white border-white' : 'text-black border-black'} transition-all px-2 cursor-pointer rounded border-2`} onClick={Translate}>
                         {buttonText}
@@ -85,7 +86,7 @@ export default function NavBar() {
                     </button>
                 </div>
             </nav>
-            <SideBar isopen={open} setopening={setOpen} color={'#962a00'} animate={animate} setReadyToAnimate={setReadyToAnimate} />
+            <SideBar isopen={open} setopening={setOpen} color={'#611b00'} animate={animate} setReadyToAnimate={setReadyToAnimate} />
         </>
     )
 }

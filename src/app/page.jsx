@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 
 export default function Home() {
-  const locale = useLocale()
+  const locale = useLocale();
   const t = useTranslations("Homepage");
   const [bgImage, setBgImage] = useState(
     "Egyptian October War Tribute desktop.png",
@@ -52,16 +52,9 @@ export default function Home() {
         <div className="flex flex-col gap-10">
           <div className="md:flex">
             <div className="pb-2">
-              <h2 className="font-bold text-2xl pb-2">What is October war?</h2>
+              <h2 className="font-bold text-2xl pb-2">{t('whatIsOctoberWar')}</h2>
               <p className="md:text-lg md:pr-5">
-                On the afternoon of October 6, 1973, Egypt witnessed the
-                beginning of a historic moment that would remain forever in its
-                people's memory. On the 10th of Ramadan, the Egyptian armed
-                forces crossed the Suez Canal and launched a courageous
-                operation to break through the Bar Lev Line. With careful
-                planning, determination, and extraordinary bravery, Egyptian
-                soldiers overcame major obstacles and proved that strong will
-                and unity could change the course of history.
+                {t('whatIsOctoberWarText')}
               </p>
             </div>
             <img
@@ -70,46 +63,197 @@ export default function Home() {
               className="md:w-100"
             />
           </div>
-          <div>
+          <div className="flex flex-col gap-5">
             <h2 className="text-2xl font-bold pb-2">
-              How did that even begin?
+              {t('howDidThatEvenBegin')}
             </h2>
-            <div className="flex flex-row gap-2">
-              <p className="w-fit md:w-auto text-sm md:text-lg">
-                In June 1967, Egypt and several other Arab countries fought
-                against Israel in a conflict known as the Naksa, or the Six-Day
-                War. The war began on June 5, 1967, when Israel launched a
-                surprise attack against Egyptian airfields and destroyed many
-                Egyptian aircraft on the ground. This attack seriously weakened
-                the Egyptian army and contributed to a major military defeat.
-                Within six days, Israel occupied the Sinai Peninsula and the
-                Gaza Strip, as well as other Arab territories. The news of the
-                defeat spread quickly and caused great sadness among the
-                Egyptian people. Many Egyptians felt disappointed because their
-                country had lost important land in such a short period. However,
-                the Naksa was not the end of Egypt's efforts to recover its
-                territory. Instead, it became a turning point in Egyptian
-                history and taught the country important lessons about military
-                preparation, planning, and the need for strong armed forces.
-                After the war, Egypt began rebuilding its army, improving its
-                weapons and training, and preparing for future battles. Egyptian
-                soldiers worked hard to become stronger and more experienced.
-                The country also began taking steps to challenge the Israeli
-                occupation of Sinai. These efforts led to the War of Attrition
+            <div className="flex flex-row gap-5">
+              <p className="w-fit text-sm md:text-lg">
+                {t('naksaText')}
               </p>
               <div>
                 <figure className="w-fit md:w-max md:h-max">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrWnM9L2mcrMSO9T2r20Ho75gl1t7UUDRYwKcLxKmlJw&s=10"
-                    alt=""
-                  />
+                  <img src="occupied parts of the middle east.jpg" alt="" />
                   <figcaption className="text-xs text-center">
-                    A picture of the occupied part pf the middle east back then
+                    {t('occupiedPartsCaption')}
                   </figcaption>
                 </figure>
               </div>
             </div>
-            <video src={locale == 'en' ? 'sixday_war_en.mp4' : 'sixday_war_ar.mp4'}></video>
+            <h2 className="text-2xl font-bold pb-2">
+              {t('backgroundOfNaksa')}
+            </h2>
+            <div className="flex flex-row gap-5">
+              <p className="w-fit text-sm md:text-lg">
+                {t('backgroundOfNaksaText')}
+              </p>
+              <figure className="w-fit md:w-max md:h-max">
+                <img src="The former president Gamal Abdel Nasser.jpg" alt="" />
+                <figcaption className="text-xs text-center">
+                  {t('nasserCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <h2 className="text-2xl font-bold pb-2">
+              {t('beginningOfWar')}
+            </h2>
+            <div className="flex flex-col md:flex-row gap-5">
+              <p className="w-fit text-sm md:text-lg">
+                {t('beginningOfWarText')}
+              </p>
+              <figure className="w-fit md:w-max md:h-max">
+                <img
+                  src="destroyed Egyptian military aircraft on the tarmac of an airbase.jpg"
+                  alt=""
+                />
+                <figcaption className="text-xs text-center">
+                  {t('destroyedAircraftCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <h2 className="text-2xl font-bold pb-2">
+              {t('impactOfNaksa')}
+            </h2>
+            <p className="text-sm md:text-lg">
+              {t('impactOfNaksaText')}
+            </p>
+            <div className="flex flex-col md:flex-row gap-5">
+              <p className="w-fit text-sm md:text-lg">
+                {t('nasserResignationText')}
+              </p>
+              <figure className="w-fit md:w-100 md:h-max">
+                <img
+                  src="The Former Egyptian President Gamal Abdel Nasser delivering his resignation speech to the nation, following the Naksa.jpg"
+                  alt=""
+                />
+                <figcaption className="text-xs text-center">
+                  {t('nasserResignationCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <video
+              src={locale == "en" ? "sixday_war_en.mp4" : "sixday_war_ar.mp4"}
+              controls
+            ></video>
+          </div>
+          <div className="flex flex-col gap-5 w-fit text-sm md:text-lg">
+            <h2 className="text-2xl font-bold pb-2">
+              {t('secondPhase')}
+            </h2>
+            <p>
+              {t('warOfAttritionIntro')}
+            </p>
+            <div className="flex flex-row">
+              <p className="w-fit">
+                {t('barLevText')}
+              </p>
+              <figure className="w-fit md:w-100 md:h-max">
+                <img
+                  src="Egyptian army leaders planning for the october war.jpg"
+                  alt=""
+                />
+                <figcaption className="text-xs text-center">
+                  {t('armyLeadersCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <div className="flex flex-row">
+              <p className="w-fit">
+                {t('attritionDetails')}
+              </p>
+              <figure className="w-fit md:w-max md:h-max">
+                <img
+                  src="Egyptian El-Sa'ka (Special Forces) commandos during the Battle of Ras El-Ash on June 30, 1967
+.jpg"
+                  alt=""
+                />
+                <figcaption className="text-xs text-center">
+                  {t('rasElAshCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <div className="flex flex-col items-center">
+              <figure>
+                <img
+                  src="The Egyptian army establishing a position on the eastern bank of the Suez Canal after crossing into Sinai.jpg"
+                  alt=""
+                />
+                <figcaption className="text-xs text-center">
+                  {t('easternBankCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <video
+              src={
+                locale == "en"
+                  ? "War_of_Attrition_EN_dubbed.mp4"
+                  : "War_of_Attrition_AR_dubbed.mp4"
+              }
+              controls
+            ></video>
+          </div>
+          <div className="flex flex-col gap-5 w-fit text-sm md:text-lg">
+            <h2 className="text-2xl font-bold pb-2">
+              {t('thirdPhase')}
+            </h2>
+            <div className="flex flex-row gap-5">
+              <p className="w-fit text-sm md:text-lg">
+                {t('octoberWarIntro')}
+              </p>
+              <figure className="w-fit md:w-max md:h-max">
+                <img src="Egyptian Air Force.jpg" alt="" />
+                <figcaption className="text-xs text-center">
+                  {t('airForceCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <div className="flex flex-row gap-5">
+              <p className="w-fit text-sm md:text-lg">
+                {t('crossingText')}
+              </p>
+              <figure className="w-fit md:w-max md:h-max">
+                <img src="Egyptian Army Breaking the Bar Lev Line.jpg" alt="" />
+                <figcaption className="text-xs text-center">
+                  {t('barLevCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-row gap-5">
+                <p className="w-fit text-sm md:text-lg">
+                  {t('determinationText')}
+                </p>
+                <figure className="w-fit md:w-max md:h-max">
+                  <img src="Egyptian tanks crossing to sinai.jpg" alt="" />
+                  <figcaption className="text-xs text-center">
+                    {t('tanksCaption')}
+                  </figcaption>
+                </figure>
+              </div>
+              <figure className="flex flex-col">
+                <img src="Egyptian army crossing the suez canal.jpg" alt="" />
+                <figcaption className="text-xs text-center">
+                  {t('armyCrossingCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <div className="flex flex-col md:flex-row gap-5">
+              <p className="w-fit">
+                {t('peaceText')}
+              </p>
+              <figure>
+                <img
+                  src="The Former Egyptian President Anwar El Sadat signing the Camp David Accords.jpg"
+                  alt=""
+                />
+                <figcaption className="text-xs text-center">
+                  {t('sadatCaption')}
+                </figcaption>
+              </figure>
+            </div>
+            <p>
+              {t('conclusion')}
+            </p>
           </div>
         </div>
       </section>

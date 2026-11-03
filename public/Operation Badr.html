@@ -1,0 +1,1148 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Operation Badr</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Cairo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Reem+Kufi:wght@600&display=swap">
+<style>
+/* Layout: the game fills the viewport. A slim title bar and HUD sit above a stage that is fitted by script to the largest 2:3 box that fits, centred on a patterned slate ground. Dialogue docks to the bottom of the stage, chapter cards cover it. Single committed dark look; canal blue and sand on slate. */
+:root{
+  --ink:#0f1a20;
+  --panel:#16252d;
+  --line:#2c4350;
+  --sand:#d2ad6e;
+  --canal:#1d7a96;
+  --flag:#c8392f;
+  --text:#e7e3d6;
+  --mute:#9db0b8;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --f-ar:"Reem Kufi","Cairo",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--ink);color:var(--text);
+  font:15px/1.55 var(--f-body);
+  padding-block:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.app{height:100%;display:flex;flex-direction:column;background:var(--ink)}
+header{display:flex;flex-direction:row;align-items:center;gap:8px;padding-block:8px 2px}
+header a{color:var(--text);display:flex;align-items:center;justify-content:center;width:38px;height:38px;flex:none}
+header a:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+svg{width:24px;height:24px;cursor:pointer}
+[data-lang=ar] header svg{transform:scaleX(-1)}
+.header-text{display:flex;flex-direction:column;align-items:center;width:100%;min-width:0;text-align:center}
+.kicker{font:500 10px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--sand)}
+h1{margin:0;font:700 24px/1.05 var(--f-display);letter-spacing:.03em;text-transform:uppercase}
+.fs{flex:none;background:transparent;border:1px solid var(--line);color:var(--text);width:38px;height:38px;font-size:18px;line-height:1;cursor:pointer}
+.fs:hover{border-color:var(--sand)}
+.fs:focus-visible,.btn:focus-visible,.opt:focus-visible{outline:2px solid var(--text);outline-offset:3px}
+.hud{display:flex;justify-content:space-between;gap:8px;font:500 12px var(--f-mono);color:var(--mute);letter-spacing:.04em;min-height:22px;align-items:center}
+.hud span{min-width:0}
+.wrap{flex:1;min-height:0;display:grid;place-items:center;padding-bottom:8px;
+  background:repeating-linear-gradient(135deg,transparent 0 22px,rgba(210,173,110,.04) 22px 23px)}
+.stage{position:relative;border:1px solid var(--line);background:#000;overflow:hidden;touch-action:none;width:300px;height:450px}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:pointer}
+.ov{position:absolute;inset:0;background:rgba(15,26,32,.95);padding:calc(22px*var(--u,1));display:flex;flex-direction:column;overflow:auto}
+.ov .in{margin:auto;display:grid;gap:calc(14px*var(--u,1));width:100%}
+.ov h2{margin:0;font:700 calc(34px*var(--u,1))/1.05 var(--f-display);text-transform:uppercase;text-wrap:balance}
+.ov p{margin:0;max-width:60ch;font-size:clamp(13px,calc(15px*var(--u,1)),24px)}
+.tag{font:500 calc(11px*var(--u,1))/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--sand)}
+.how{color:var(--mute);border-inline-start:2px solid var(--canal);padding-inline-start:12px}
+.ar{font:600 calc(64px*var(--u,1))/1.1 var(--f-ar);color:var(--sand);direction:rtl;text-align:start}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{background:var(--sand);color:var(--ink);border:0;padding:12px 22px;font:700 calc(18px*var(--u,1)) var(--f-display);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;justify-self:start}
+.btn:hover{background:#e4c98f}
+.big{font:700 calc(64px*var(--u,1))/1 var(--f-display);font-variant-numeric:tabular-nums}
+.big small{font-size:.4em;color:var(--mute)}
+.facts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.facts li{font-size:clamp(12.5px,calc(13.5px*var(--u,1)),22px);line-height:1.5;padding-inline-start:12px;border-inline-start:2px solid var(--line)}
+.facts b{color:var(--sand);font-weight:500}
+.rows{display:grid;gap:6px;font:500 calc(12px*var(--u,1)) var(--f-mono);color:var(--mute)}
+.rows div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px;font-variant-numeric:tabular-nums}
+.dlg{position:absolute;left:0;right:0;bottom:0;background:rgba(15,26,32,.96);border-top:2px solid var(--sand);padding:calc(12px*var(--u,1)) calc(16px*var(--u,1)) calc(14px*var(--u,1));display:grid;gap:6px;min-height:calc(112px*var(--u,1));cursor:pointer}
+.dlg .who{font:500 calc(11px*var(--u,1)) var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--sand)}
+.dlg .txt{font-size:clamp(13px,calc(15px*var(--u,1)),26px);line-height:1.5;min-height:3em}
+.dlg.nar .txt{font-style:italic;color:#c9d3d6}
+.dlg .nxt{font:500 calc(11px*var(--u,1)) var(--f-mono);color:var(--mute);justify-self:end}
+.opt{background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 12px;text-align:start;font:clamp(13px,calc(15px*var(--u,1)),24px)/1.4 var(--f-body);cursor:pointer}
+.opt:hover{border-color:var(--sand)}
+[dir=rtl]{font-family:"Cairo",var(--f-body)}
+[dir=rtl] h2,[dir=rtl] .btn,[dir=rtl] .opt{font-family:"Cairo",sans-serif;text-transform:none;letter-spacing:0}
+[dir=rtl] .tag,[dir=rtl] .who,[dir=rtl] .nxt,[dir=rtl] .rows{font-family:"Cairo",sans-serif;letter-spacing:0;text-transform:none}
+</style>
+
+<div class="app" id="app">
+  <header>
+    <a href="#" id="back" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+    </a>
+    <div class="header-text">
+      <div class="kicker" id="kick">6 October 1973 · 10 Ramadan 1393</div>
+      <h1 id="ttl">Operation Badr</h1>
+    </div>
+    <button class="fs" id="fs" aria-label="Fullscreen" title="Fullscreen">⛶</button>
+  </header>
+  <div class="hud"><span id="h1"></span><span id="h2"></span></div>
+  <div class="wrap" id="wrap">
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Game stage"></canvas>
+      <div class="dlg" id="dlg" hidden></div>
+      <div class="ov" id="ov"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const W=400,H=600;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const ov=document.getElementById('ov'),dlg=document.getElementById('dlg');
+const stage=document.getElementById('stage'),wrap=document.getElementById('wrap');
+const DPR=Math.min(window.devicePixelRatio||1,2);
+cv.width=W*DPR;cv.height=H*DPR;
+const $=s=>document.querySelector(s);
+const C={sand:'#d2ad6e',sandDk:'#8f7240',sandLt:'#e4c98f',canal:'#1d7a96',canalLt:'#5fb6cf',canalDk:'#12546b',flag:'#c8392f',ink:'#0f1a20',text:'#e7e3d6'};
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const MONO='"IBM Plex Mono",ui-monospace,monospace';
+
+/* ───── language ───── */
+let LANG='en';
+const T=(en,ar)=>({en,ar});
+const tr=x=>(x&&typeof x==='object')?x[LANG]:x;
+const nn=s=>LANG==='ar'?String(s).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]):String(s);
+const NM={hassan:T('Hassan','حسن'),adel:T('Adel','عادل'),mostafa:T('Mostafa','مصطفى'),samir:T('Samir','سمير'),sayed:T('Sayed','سيد')};
+function detectLang(){
+  let v='';
+  try{
+    const m=document.cookie.split(';').map(c=>c.trim()).find(c=>c.slice(0,7)==='locale=');
+    if(m)v=decodeURIComponent(m.slice(7));
+  }catch(_){}
+  if(!v){try{v=(location.hash||'').replace('#','')}catch(_){}}
+  if(!v){try{v=navigator.language||''}catch(_){}}
+  return String(v).toLowerCase().replace(/^["']|["']$/g,'').slice(0,2)==='ar'?'ar':'en';
+}
+$('#back').addEventListener('click',e=>{e.preventDefault();window.history.back()});
+function setLang(l){
+  LANG=l;const d=l==='ar'?'rtl':'ltr';ov.dir=d;dlg.dir=d;
+  document.documentElement.setAttribute('data-lang',l);
+  const hd=document.querySelector('header');if(hd)hd.dir=d;
+  $('#back').setAttribute('aria-label',l==='ar'?'رجوع':'Back');
+  $('#fs').setAttribute('aria-label',l==='ar'?'ملء الشاشة':'Fullscreen');
+  $('#ttl').textContent=tr(T('Operation Badr','عملية بدر'));
+  $('#kick').textContent=tr(T('6 October 1973 · 10 Ramadan 1393','٦ أكتوبر ١٩٧٣ · ١٠ رمضان ١٣٩٣'));
+}
+const BTN={start:T('Start','ابدأ'),again:T('Play again','العب مرة أخرى')};
+
+/* story state */
+let F={},SC={};
+function resetState(){F={letter:false,honest:false,brave:false,cool:false,wash:false,tea:false,adel:''};SC={}}
+resetState();
+
+/* ───── fit stage to the viewport ───── */
+function fit(){
+  const r=wrap.getBoundingClientRect();
+  const w=Math.max(220,Math.min(r.width-2,(r.height-2)*2/3));
+  stage.style.width=w+'px';stage.style.height=(w*1.5)+'px';
+  stage.style.setProperty('--u',(w/420).toFixed(3));
+}
+if(window.ResizeObserver)new ResizeObserver(fit).observe(wrap);
+addEventListener('resize',fit);
+document.addEventListener('fullscreenchange',()=>setTimeout(fit,60));
+fit();
+const fsb=$('#fs');
+if(!document.fullscreenEnabled)fsb.hidden=true;
+fsb.onclick=()=>{try{if(document.fullscreenElement)document.exitFullscreen();else{const p=$('#app').requestFullscreen();if(p&&p.catch)p.catch(()=>{})}}catch(_){}};
+
+/* ───── input ───── */
+const ptr={x:W/2,y:H/2,down:false};
+const keys={};
+function setPtr(e){const r=cv.getBoundingClientRect();ptr.x=(e.clientX-r.left)/r.width*W;ptr.y=(e.clientY-r.top)/r.height*H}
+cv.addEventListener('pointerdown',e=>{setPtr(e);ptr.down=true;try{cv.setPointerCapture(e.pointerId)}catch(_){}if(S&&!S.paused&&S.down)S.down(ptr.x,ptr.y)});
+cv.addEventListener('pointermove',setPtr);
+const up=()=>{ptr.down=false};
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+addEventListener('keydown',e=>{
+  keys[e.code]=true;
+  if(e.code==='Space'||e.code==='Enter'||e.code==='ArrowUp'){
+    if(!dlg.hidden&&adv){adv();e.preventDefault();return}
+    if(e.code!=='Enter'&&S&&!S.paused&&S.jump&&document.activeElement.tagName!=='BUTTON'){S.jump();e.preventDefault()}
+  }
+});
+addEventListener('keyup',e=>{delete keys[e.code]});
+
+/* ───── dialogue engine ───── */
+let adv=null;
+function say(items,done){
+  let i=0;
+  const next=()=>{
+    if(i>=items.length){dlg.hidden=true;adv=null;done&&done();return}
+    const it=items[i++];
+    if(it.ask)choose(it.ask,next);else line(it,next);
+  };
+  next();
+}
+function line(it,next){
+  dlg.hidden=false;
+  dlg.innerHTML='<div class="who"></div><div class="txt"></div><div class="nxt"></div>';
+  const who=dlg.querySelector('.who'),txt=dlg.querySelector('.txt');
+  dlg.querySelector('.nxt').textContent=tr(T('tap ▸','المس ◂'));
+  who.textContent=it.w?tr(NM[it.w]):'';who.hidden=!it.w;
+  dlg.classList.toggle('nar',!it.w);
+  const full=tr(it.t);
+  let n=0,timer=setInterval(()=>{n++;txt.textContent=full.slice(0,n);if(n>=full.length){clearInterval(timer);timer=null}},16);
+  adv=()=>{
+    if(timer){clearInterval(timer);timer=null;txt.textContent=full;return}
+    adv=null;next();
+  };
+}
+function choose(opts,next){
+  dlg.hidden=false;dlg.classList.remove('nar');adv=null;
+  dlg.innerHTML='<div class="who">'+tr(T('Your choice','اختيارك'))+'</div>';
+  opts.forEach(o=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=tr(o.l);
+    b.onclick=e=>{e.stopPropagation();o.f&&o.f();say(o.say||[],next)};
+    dlg.appendChild(b);
+  });
+}
+dlg.addEventListener('click',()=>{adv&&adv()});
+
+/* ───── drawing helpers ───── */
+function label(txt,x,y,col,size,align){
+  ctx.font='500 '+(size||9)+'px '+(LANG==='ar'?'"Cairo",sans-serif':MONO);
+  ctx.textAlign=align||'center';ctx.fillStyle=col||C.ink;ctx.fillText(tr(txt),x,y);
+}
+function hex(c){return[parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)]}
+function mix(a,b,k){const A=hex(a),B=hex(b);return'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(',')+')'}
+function person(x,y,o){
+  const s=o.s||1.3;
+  ctx.save();ctx.translate(x,y);ctx.scale(s*((o.face||1)<0?-1:1),s);
+  const sw=o.walk?Math.sin(o.walk)*5:0,body=o.body||'#6d6a43';
+  ctx.fillStyle='#3b3a28';ctx.fillRect(-5+sw,-16,4.5,16);ctx.fillRect(.5-sw,-16,4.5,16);
+  ctx.fillStyle=body;ctx.fillRect(-7,-32,14,17);
+  ctx.fillStyle=mix(body,'#000000',.25);ctx.fillRect(-9,-31,3,13);
+  if(o.pack){ctx.fillStyle='#4a4a30';ctx.fillRect(-11,-30,5,14)}
+  ctx.fillStyle='#c99a6e';ctx.beginPath();ctx.arc(0,-38,6.5,0,6.283);ctx.fill();
+  if(o.stache){ctx.fillStyle='#2a1c14';ctx.fillRect(1,-36,6,1.8)}
+  if(o.hat==='cap'){ctx.fillStyle='#1c1f18';ctx.fillRect(-7,-46,14,5);ctx.fillRect(-1,-42,10,1.8)}
+  else{ctx.fillStyle='#4e5632';ctx.beginPath();ctx.arc(0,-39,7.8,Math.PI,0);ctx.closePath();ctx.fill();ctx.fillRect(-8.5,-39.5,17,2)}
+  if(o.rifle){ctx.strokeStyle='#241c12';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-3,-22);ctx.lineTo(13,-33);ctx.stroke()}
+  if(o.paper){ctx.fillStyle='#efe9d8';ctx.fillRect(5,-27,8,10)}
+  if(o.pot){ctx.fillStyle='#b8b8b0';ctx.fillRect(6,-24,9,8);ctx.fillRect(14,-22,3,2);ctx.fillStyle='#8a8a84';ctx.fillRect(7,-27,7,3)}
+  ctx.restore();
+}
+function sandBg(y0,top,bot){const g=ctx.createLinearGradient(0,y0,0,H);g.addColorStop(0,top);g.addColorStop(1,bot);ctx.fillStyle=g;ctx.fillRect(0,y0,W,H-y0)}
+function duneField(off){
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,C.sandLt);g.addColorStop(1,C.sand);
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(143,114,64,.38)';ctx.lineWidth=1.2;
+  for(let i=-1;i<9;i++){
+    const y=((i*80+off)%(H+160))-80;
+    ctx.beginPath();ctx.moveTo(0,y);
+    for(let x=0;x<=W;x+=20)ctx.lineTo(x,y+Math.sin((x+i*37)*0.03)*6);
+    ctx.stroke();
+  }
+}
+function drawWater(t){
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,C.canalDk);g.addColorStop(1,C.canal);
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(95,182,207,.28)';ctx.lineWidth=1.2;
+  for(let j=0;j<22;j++){
+    const y=((j*34+t*26)%(H+34));
+    ctx.beginPath();
+    for(let x=0;x<=W;x+=16){const yy=y+Math.sin(x*0.05+j+t*2)*2;x?ctx.lineTo(x,yy):ctx.moveTo(x,yy)}
+    ctx.stroke();
+  }
+  ctx.fillStyle=C.sand;ctx.fillRect(0,0,W,58);
+  ctx.fillStyle=C.sandDk;ctx.beginPath();ctx.moveTo(0,58);
+  for(let x=0;x<=W;x+=25)ctx.lineTo(x,50+((x/25)%2?10:0));
+  ctx.lineTo(W,70);ctx.lineTo(0,70);ctx.closePath();ctx.fill();
+  ctx.fillStyle=C.sand;ctx.fillRect(0,566,W,H-566);
+  ctx.fillStyle=C.sandDk;ctx.fillRect(0,562,W,5);
+  label(T('EAST BANK · SINAI','الضفة الشرقية · سيناء'),10,22,'rgba(15,26,32,.55)',10,'left');
+  label(T('WEST BANK','الضفة الغربية'),10,588,'rgba(15,26,32,.55)',10,'left');
+}
+const STARS=Array.from({length:55},(_,i)=>({x:(i*137.5)%400,y:(i*53.7)%230,r:i%7===0?1.6:1}));
+function boom(f){
+  const k=f.a;
+  ctx.strokeStyle='rgba(255,236,190,'+(1-k)+')';ctx.lineWidth=3*(1-k)+1;
+  ctx.beginPath();ctx.arc(f.x,f.y,6+k*44,0,6.283);ctx.stroke();
+  ctx.fillStyle='rgba(200,57,47,'+(.7*(1-k))+')';ctx.beginPath();ctx.arc(f.x,f.y,(6+k*44)*.55,0,6.283);ctx.fill();
+}
+
+/* ═════ 1: the camp ═════ */
+const NPCS=[
+  {id:'adel',name:T('ADEL','عادل'),x:44,o:{s:1.15,hat:'cap',paper:true}},
+  {id:'sayed',name:T('SAYED','سيد'),x:192,o:{s:1.2,hat:'cap',body:'#7d7a55',pot:true}},
+  {id:'mostafa',name:T('SGT. MOSTAFA','الرقيب مصطفى'),x:268,o:{s:1.35,hat:'helmet',stache:true,rifle:true}},
+  {id:'samir',name:T('CAPT. SAMIR','النقيب سمير'),x:352,o:{s:1.3,hat:'cap',body:'#7a7550'}}
+];
+const TALK={
+  adel:()=>[
+    {w:'adel',t:T('Corporal Hassan! You write better than I do. Will you help me with a letter to my mother?','يا عريف حسن! خطك أحسن من خطي. تكتبلي جواب لأمي؟')},
+    {ask:[
+      {l:T('Sit down. What do you want to say?','اقعد. عايز تقول إيه؟'),f:()=>{F.letter=true},say:[
+        {w:'adel',t:T('That I eat well. That the army is kind. That I am not afraid.','أقولها إني باكل كويس. وإن الجيش طيب. وإني مش خايف.')},
+        {w:'hassan',t:T('Three lies in one sentence.','تلات كدبات في جملة واحدة.')},
+        {w:'adel',t:T('Then make it two.','خليهم اتنين.')},
+        {t:T('You write it together by the fire. He folds it small and tucks it into his helmet liner.','تكتبان الجواب معًا قرب النار. يطويه صغيرًا ويدسّه داخل خوذته.')}]},
+      {l:T('Not tonight, Adel. Get some sleep.','مش النهاردة يا عادل. نام شوية.'),say:[
+        {w:'adel',t:T('Yes, Corporal.','حاضر يا عريف.')},
+        {t:T('He folds the blank page and puts it away. He holds the pencil a little longer.','يطوي الورقة البيضاء ويخبّئها، ويظل ممسكًا بالقلم لحظة أطول.')}]}
+    ]}],
+  sayed:()=>[
+    {t:T('Sayed, the unit’s orderly, is boiling tea over the fire as if it were any other night.','سيد، فرّاش الوحدة، يغلي الشاي فوق النار كأنها ليلة عادية.')},
+    {w:'sayed',t:T('We broke the fast an hour ago. Dates, then tea, same as at home. Tea, Corporal? Strong, plenty of sugar.','فطرنا من ساعة. تمر وبعدين شاي، زي البيت بالظبط. شاي يا عريف؟ تقيل وسكر زيادة.')},
+    {ask:[
+      {l:T('Pour me one. And one for Mostafa.','صب لي كوباية. وواحدة لمصطفى.'),f:()=>{F.tea=true},say:[{w:'sayed',t:T('Two sugars for the sergeant. He will pretend he does not like it.','لمصطفى معلقتين سكر. وهيتظاهر إنه مش بيحبه.')}]},
+      {l:T('No time, Sayed. Tomorrow we drink to it.','مفيش وقت يا سيد. بكرة نشربها احتفالًا.'),say:[{w:'sayed',t:T('In sha’ Allah. I will keep the pot warm.','إن شاء الله. هفضّل مسخّن الإبريق.')}]}
+    ]}],
+  mostafa:()=>[
+    {t:T('Sergeant Mostafa is from Port Said. He stares toward the water, though it is too dark to see it.','الرقيب مصطفى من بورسعيد. يحدّق نحو الماء، رغم أن الظلام يحجبه.')},
+    {w:'mostafa',t:T('In June of ’67 I walked back across this sand with no boots. Tomorrow I walk the other way.','في يونيو ٦٧ رجعت على الرمل ده حافي. بكرة هرجع أمشي في الاتجاه التاني.')},
+    {w:'mostafa',t:T('Six years of drills. Boats, ladders, ropes, in the dark and in the heat. So tell me, Corporal. Are you ready?','ست سنين تدريب. لنشات وسلالم وحبال، في الضلمة وفي الحر. قولي بقى يا عريف. جاهز؟')},
+    {ask:[
+      {l:T('I am ready, Sergeant.','جاهز يا رقيب.'),f:()=>{F.brave=true},say:[{w:'mostafa',t:T('Good. Say it loud tomorrow and the canal will believe you.','كويس. قولها بصوت عالي بكرة وهتصدقك القناة.')}]},
+      {l:T('Honestly? I am afraid.','بصراحة؟ أنا خايف.'),f:()=>{F.honest=true},say:[{w:'mostafa',t:T('Good. Fear keeps your head low. The ones who are not afraid are the ones I worry about.','كويس. الخوف بيخلّي راسك واطية. اللي مش خايف هو اللي بخاف عليه.')}]}
+    ]}],
+  samir:()=>[
+    {w:'samir',t:T('Hassan. Tomorrow, 14:00. The sun will be at our backs and in their eyes.','حسن. بكرة الساعة اتنين الضهر. الشمس هتبقى في ضهرنا وفي عينيهم.')},
+    {w:'samir',t:T('After the crossing you are with me on the pumps. The earth rampart on the far bank stands as tall as a building. We open it with water.','بعد العبور هتبقى معايا على المضخات. الساتر الترابي على الضفة التانية في ارتفاع عمارة. هنفتحه بالمية.')},
+    {ask:[
+      {l:T('How long will that take?','هياخد وقت قد إيه؟'),f:()=>{F.cool=true},say:[{w:'samir',t:T('Hours, if the pumps hold. Pumps fear nothing. They only overheat. Watch the gauge.','ساعات، لو المضخات استحملت. المضخات مبتخافش. بتسخن بس. راقب العدّاد.')}]},
+      {l:T('We will manage, Captain.','هنقدر يا فندم.'),f:()=>{F.wash=true},say:[{w:'samir',t:T('Then hold the nozzle steady. The water does the rest.','يبقى ثبّت الخرطوم. والمية تكمّل الباقي.')}]}
+    ]}]
+};
+const AFTER={
+  adel:()=>[{w:'adel',t:F.letter?T('Thank you, Corporal. For the letter.','شكرًا يا عريف. على الجواب.'):T('Tomorrow, then. Good night, Corporal.','يبقى بكرة. تصبح على خير يا عريف.')}],
+  sayed:()=>[{w:'sayed',t:T('Drink while it is hot. God knows when we get another.','اشرب وهو سخن. ربنا يعلم إمتى هنلاقي غيره.')}],
+  mostafa:()=>[{w:'mostafa',t:T('Rest. The water will not be gentle tomorrow.','ارتاح. المية مش هتبقى حنينة بكرة.')}],
+  samir:()=>[{w:'samir',t:T('Sleep. That is an order.','نام. ده أمر.')}]
+};
+const CAMP={
+  init(){this.x=310;this.tx=null;this.face=-1;this.t=0;this.talked=0;this.pend=null;this.busy=true;this.walk=0;this.moving=false;this.nv=.15;this.closed=false;this.done=false;for(const n of NPCS)n.talked=false},
+  talk(n){
+    this.busy=true;this.tx=null;
+    say(n.talked?AFTER[n.id]():TALK[n.id](),()=>{
+      if(!n.talked){n.talked=true;this.talked++}
+      if(this.talked===NPCS.length&&!this.closed){
+        this.closed=true;
+        say([
+          {t:T('Night settles over the canal. Somewhere across the water a generator hums.','يحلّ الليل على القناة. وعلى مسافة عبر الماء يئنّ مولّد كهرباء.')},
+          {t:T('Tomorrow is the tenth of Ramadan.','غدًا هو العاشر من رمضان.')}
+        ],()=>ch2());
+      }else this.busy=false;
+    });
+  },
+  down(x,y){
+    if(this.busy)return;
+    const n=NPCS.find(n=>Math.abs(n.x-x)<34&&y>290&&y<440);
+    if(n){this.pend=n;this.tx=n.x+(this.x<n.x?-40:40)}
+    else{this.pend=null;this.tx=clamp(x,22,378)}
+  },
+  jump(){
+    if(this.busy)return;
+    const n=NPCS.find(n=>Math.abs(n.x-this.x)<66);
+    if(n)this.talk(n);
+  },
+  update(dt){
+    this.t+=dt;
+    const target=.15+.75*this.talked/NPCS.length+(this.closed?.1:0);
+    this.nv+=(target-this.nv)*Math.min(1,dt*1.2);
+    this.moving=false;
+    if(this.busy)return;
+    const dir=((keys.ArrowRight||keys.KeyD)?1:0)-((keys.ArrowLeft||keys.KeyA)?1:0);
+    if(dir){this.tx=clamp(this.x+dir*50,22,378);this.pend=null}
+    if(this.tx!=null){
+      const dx=this.tx-this.x;
+      if(Math.abs(dx)>3){this.x+=Math.min(Math.abs(dx),92*dt)*Math.sign(dx);this.face=Math.sign(dx);this.walk+=dt*12;this.moving=true}
+      else{this.tx=null;if(this.pend){const n=this.pend;this.pend=null;this.talk(n)}}
+    }
+  },
+  draw(){
+    const nv=this.nv,gy=400;
+    const sg=ctx.createLinearGradient(0,0,0,255);sg.addColorStop(0,mix('#25365e','#070c1c',nv));sg.addColorStop(1,mix('#f0a050','#1a2442',nv));
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,260);
+    ctx.fillStyle='#fff';
+    for(const s of STARS){ctx.globalAlpha=clamp((nv-.25)*1.6,0,1)*(.6+.4*Math.sin(this.t*2+s.x));ctx.fillRect(s.x,s.y,s.r,s.r)}
+    ctx.globalAlpha=1;
+    ctx.fillStyle=mix('#6a4a4a','#0d1020',nv);ctx.beginPath();ctx.moveTo(0,262);
+    for(let x=0;x<=W;x+=20)ctx.lineTo(x,248+Math.sin(x*.045)*7+Math.sin(x*.11)*3);
+    ctx.lineTo(W,262);ctx.closePath();ctx.fill();
+    ctx.fillStyle=mix('#4a8aa0','#0f2638',nv);ctx.fillRect(0,258,W,28);
+    ctx.fillStyle='rgba(255,255,255,'+(.15+.1*nv)+')';
+    for(let i=0;i<14;i++){ctx.fillRect((i*57+this.t*6)%W,262+(i%4)*5,10,1.2)}
+    sandBg(286,mix('#c9a165','#2a2430',nv),mix('#9a7440','#1a1820',nv));
+    for(const tx of [100,310]){
+      ctx.fillStyle=mix('#5c6338','#141a14',nv);ctx.beginPath();ctx.moveTo(tx-48,336);ctx.lineTo(tx,296);ctx.lineTo(tx+48,336);ctx.closePath();ctx.fill();
+      ctx.fillStyle=mix('#363b20','#0a0e0a',nv);ctx.beginPath();ctx.moveTo(tx-9,336);ctx.lineTo(tx,312);ctx.lineTo(tx+9,336);ctx.closePath();ctx.fill();
+    }
+    ctx.fillStyle=mix('#7a5a34','#2a2018',nv);ctx.fillRect(72,382,26,18);
+    ctx.fillRect(318,380,26,5);ctx.fillRect(320,385,3,15);ctx.fillRect(338,385,3,15);
+    ctx.fillStyle='rgba(6,10,28,'+(nv*.38)+')';ctx.fillRect(0,286,W,H-286);
+    const fx=150,fy=398;
+    ctx.globalCompositeOperation='lighter';
+    const gl=ctx.createRadialGradient(fx,fy-10,2,fx,fy-10,110);gl.addColorStop(0,'rgba(255,150,50,'+(.22+.3*nv)+')');gl.addColorStop(1,'rgba(255,150,50,0)');
+    ctx.fillStyle=gl;ctx.fillRect(fx-120,fy-130,240,200);
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle='#3a2616';ctx.fillRect(fx-14,fy-3,28,5);
+    for(let k=0;k<3;k++){
+      const h=16+Math.sin(this.t*9+k*2)*5+k%2*4;
+      ctx.fillStyle=k===1?'#ffd06a':'#f08a30';
+      ctx.beginPath();ctx.moveTo(fx-8+k*8,fy-2);ctx.quadraticCurveTo(fx-10+k*8,fy-h*.6,fx-4+k*8,fy-h);ctx.quadraticCurveTo(fx+1+k*8,fy-h*.5,fx+1+k*8,fy-2);ctx.closePath();ctx.fill();
+    }
+    for(const n of NPCS){
+      person(n.x,gy,Object.assign({face:this.x<n.x?-1:1},n.o));
+      label(n.name,n.x,gy+14,'rgba(231,227,214,.8)',9);
+      if(!n.talked&&!this.busy)label('!',n.x,gy-n.o.s*44-14+Math.sin(this.t*5)*3,C.sand,16);
+    }
+    person(this.x,gy,{s:1.3,face:this.face,walk:this.moving?this.walk:0,rifle:true,pack:true});
+    label(T('HASSAN','حسن'),this.x,gy+14,'rgba(231,227,214,.8)',9);
+    if(this.talked===0&&!this.busy)label(T('Tap to walk · tap a soldier to talk','المس للمشي · المس جنديًا للحديث'),W/2,44,'rgba(231,227,214,.92)',12);
+  },
+  hud(){return[tr(T('Talk to the men','تحدّث مع الرجال')),nn(this.talked)+' / '+nn(NPCS.length)]}
+};
+
+/* ═════ sky scene (dialogue backdrop) ═════ */
+const SKY={
+  init(){this.t=0;this.jets=Array.from({length:7},(_,i)=>({y:70+(i*37)%150,d:.4+i*.9,sp:rnd(190,260)}));this.fl=[]},
+  update(dt){
+    this.t+=dt;
+    if(Math.random()<dt*5)this.fl.push({x:rnd(20,380),a:0});
+    for(const f of this.fl)f.a+=dt;
+    this.fl=this.fl.filter(f=>f.a<.35);
+  },
+  draw(){
+    const sg=ctx.createLinearGradient(0,0,0,300);sg.addColorStop(0,'#5f97b8');sg.addColorStop(1,'#ecd9b0');
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,300);
+    ctx.fillStyle='#b8965f';ctx.beginPath();ctx.moveTo(0,310);
+    for(let x=0;x<=W;x+=20)ctx.lineTo(x,296+Math.sin(x*.05)*5);
+    ctx.lineTo(W,320);ctx.lineTo(0,320);ctx.closePath();ctx.fill();
+    for(let i=0;i<6;i++){
+      const px=40+i*62,age=this.t*.6+i;
+      for(let k=0;k<7;k++){
+        ctx.fillStyle='rgba(48,40,38,'+(.5-k*.05)+')';
+        ctx.beginPath();ctx.arc(px+Math.sin(age+k)*6,306-k*16-(this.t*3%6),9+k*3.2,0,6.283);ctx.fill();
+      }
+    }
+    for(const f of this.fl){ctx.fillStyle='rgba(255,220,140,'+(.85*(1-f.a/.35))+')';ctx.beginPath();ctx.arc(f.x,312,6+f.a*40,0,6.283);ctx.fill()}
+    ctx.fillStyle=C.canal;ctx.fillRect(0,320,W,62);
+    ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1;
+    for(let i=0;i<12;i++){const x=(i*41+this.t*10)%W;ctx.beginPath();ctx.moveTo(x,330+(i%5)*10);ctx.lineTo(x+16,330+(i%5)*10);ctx.stroke()}
+    sandBg(382,'#c9a165','#8f7240');
+    for(let i=0;i<8;i++){
+      const bx=30+i*48;
+      ctx.fillStyle='#3d4a2a';ctx.beginPath();ctx.ellipse(bx,396,20,5,0,0,6.283);ctx.fill();
+      person(bx+(i%2?8:-8),392,{s:.5,hat:'helmet'});
+    }
+    for(const j of this.jets){
+      const x=-40+(this.t-j.d)*j.sp;
+      if(x<-60||x>W+260)continue;
+      const sz=7+j.y/35;
+      ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-sz*7,j.y+1);ctx.lineTo(x-sz,j.y+1);ctx.stroke();
+      ctx.fillStyle='#1f2a32';ctx.beginPath();ctx.moveTo(x+sz*1.6,j.y);ctx.lineTo(x-sz,j.y-sz*.9);ctx.lineTo(x-sz*.4,j.y);ctx.lineTo(x-sz,j.y+sz*.9);ctx.closePath();ctx.fill();
+    }
+  },
+  hud(){return[tr(T('Ten Ramadan','العاشر من رمضان')),nn('14:00')]}
+};
+
+/* ═════ 2: spotting the strongpoints ═════ */
+const KIN=[T('STRONGPOINT','نقطة حصينة'),T('BUNKER','مخبأ'),T('MORTAR','هاون'),T('OBSERVATION','مراقبة')];
+const AIR_TOTAL=16;
+function drawTarget(k,x,y,t){
+  ctx.save();ctx.translate(x,y);
+  ctx.strokeStyle=C.flag;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(0,0,20+Math.sin(t*6)*1.5,0,6.283);ctx.stroke();
+  ctx.fillStyle='#33281a';ctx.strokeStyle=C.sandLt;ctx.lineWidth=1.4;
+  if(k===0){
+    ctx.beginPath();ctx.arc(0,3,9,Math.PI,0);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-4,3);ctx.lineTo(4,3);ctx.stroke();
+  }else if(k===1){
+    ctx.fillRect(-14,-4,28,8);ctx.strokeRect(-14,-4,28,8);
+    ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(12,0);ctx.stroke();ctx.setLineDash([]);
+  }else if(k===2){
+    ctx.beginPath();ctx.arc(0,2,6,0,6.283);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.moveTo(2,0);ctx.lineTo(12,-9);ctx.stroke();
+  }else{
+    ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(9,0);ctx.lineTo(0,9);ctx.lineTo(-9,0);ctx.closePath();ctx.fill();ctx.stroke();
+  }
+  ctx.restore();
+  label(KIN[k],x,y+34,C.ink,9);
+}
+const AIR={
+  init(){this.t=0;this.spawned=0;this.hit=0;this.esc=0;this.T=[];this.fx=[];this.next=.5;this.done=false;ptr.down=false},
+  down(x,y){
+    let best=null,bd=40;
+    for(const o of this.T){const d=Math.hypot(o.x-x,o.y-y);if(d<bd){bd=d;best=o}}
+    if(best){this.T=this.T.filter(o=>o!==best);this.hit++;this.fx.push({type:'boom',x:best.x,y:best.y,a:0})}
+    else this.fx.push({type:'miss',x,y,a:0});
+  },
+  update(dt){
+    this.t+=dt;this.next-=dt;
+    if(this.spawned<AIR_TOTAL&&this.next<=0){
+      this.next=1.5;this.spawned++;
+      this.T.push({k:Math.floor(Math.random()*4),x:rnd(40,360),y:-24});
+    }
+    for(const o of this.T)o.y+=64*dt;
+    const before=this.T.length;
+    this.T=this.T.filter(o=>o.y<H+30);
+    this.esc+=before-this.T.length;
+    for(const f of this.fx)f.a+=dt;
+    this.fx=this.fx.filter(f=>f.a<1);
+    if(this.spawned===AIR_TOTAL&&this.T.length===0)this.done=true;
+  },
+  draw(){
+    duneField(this.t*64);
+    for(const o of this.T)drawTarget(o.k,o.x,o.y,this.t);
+    for(const f of this.fx){
+      if(f.type==='boom')boom(f);
+      else{ctx.strokeStyle='rgba(15,26,32,'+(.6*(1-f.a))+')';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(f.x,f.y,6+f.a*14,0,6.283);ctx.stroke()}
+    }
+    if(this.t<4)label(T('Tap each position to mark it for the guns','المس كل موقع لتحديده للمدفعية'),W/2,30,'rgba(15,26,32,.9)',12);
+  },
+  hud(){return[tr(T('Marked ','تم تحديد '))+nn(this.hit)+' / '+nn(AIR_TOTAL),nn(this.esc)+tr(T(' got away',' أفلتت'))]},
+  score(){return Math.round(this.hit/AIR_TOTAL*100)}
+};
+
+/* ═════ 3: crossing ═════ */
+const CROSS_DUR=26;
+const CROSS={
+  init(){this.t=0;this.hull=3;this.x=W/2;this.by=545;this.sp=[];this.next=1;this.inv=0;this.done=false;this.ok=false;ptr.x=W/2;ptr.down=false},
+  update(dt){
+    this.t+=dt;const p=this.t/CROSS_DUR;
+    this.x+=(clamp(ptr.x,30,370)-this.x)*Math.min(1,dt*9);
+    this.by=545-Math.min(1,p)*475;
+    this.inv=Math.max(0,this.inv-dt);
+    this.next-=dt;
+    if(this.next<=0&&p<.93){
+      this.next=Math.max(.38,.85-p*.45);
+      this.sp.push({x:clamp(this.x+rnd(-95,95),22,378),y:clamp(this.by-rnd(40,230),90,545),a:0,hit:false});
+    }
+    for(const s of this.sp){
+      s.a+=dt;
+      if(!s.hit&&s.a>=1){s.hit=true;if(Math.hypot(s.x-this.x,s.y-this.by)<36&&this.inv<=0){this.hull--;this.inv=1.1}}
+    }
+    this.sp=this.sp.filter(s=>s.a<1.5);
+    if(this.hull<=0){this.done=true;this.ok=false}
+    else if(p>=1){this.done=true;this.ok=true}
+  },
+  boat(x,y,alpha,men){
+    ctx.save();ctx.translate(x,y);ctx.globalAlpha=alpha;
+    ctx.fillStyle='#55633a';ctx.strokeStyle='#1d2614';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(0,-23);ctx.quadraticCurveTo(14,-8,12,18);ctx.lineTo(-12,18);ctx.quadraticCurveTo(-14,-8,0,-23);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.strokeStyle='#e7e3d6';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(-12,4);ctx.lineTo(-20,10);ctx.moveTo(12,4);ctx.lineTo(20,10);ctx.stroke();
+    if(men){ctx.fillStyle='#4e5632';ctx.strokeStyle='#1d2614';ctx.lineWidth=1;for(const [mx,my] of [[-4,-6],[4,3],[-4,11]]){ctx.beginPath();ctx.arc(mx,my,4.6,0,6.283);ctx.fill();ctx.stroke()}}
+    ctx.restore();
+  },
+  draw(){
+    drawWater(this.t);
+    for(const [gx,gy] of [[52,28],[108,-14],[292,22],[348,-10]])this.boat(gx,clamp(this.by+gy,70,560),.5,false);
+    for(const s of this.sp){
+      if(s.a<1){
+        const k=s.a;
+        ctx.strokeStyle=C.flag;ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.beginPath();ctx.arc(s.x,s.y,36,0,6.283);ctx.stroke();ctx.setLineDash([]);
+        ctx.fillStyle='rgba(200,57,47,'+(.12+.25*k)+')';ctx.beginPath();ctx.arc(s.x,s.y,36*k,0,6.283);ctx.fill();
+      }else{
+        const k=(s.a-1)/.5;
+        ctx.strokeStyle='rgba(255,255,255,'+(1-k)+')';ctx.lineWidth=4*(1-k)+1;ctx.beginPath();ctx.arc(s.x,s.y,20+k*34,0,6.283);ctx.stroke();
+        ctx.fillStyle='rgba(255,255,255,'+(.6*(1-k))+')';ctx.beginPath();ctx.arc(s.x,s.y,14*(1-k),0,6.283);ctx.fill();
+      }
+    }
+    const blink=this.inv>0&&Math.floor(this.t*14)%2===0;
+    this.boat(this.x,this.by,blink?.35:1,true);
+    ctx.fillStyle='rgba(15,26,32,.5)';ctx.fillRect(W-16,80,4,470);
+    ctx.fillStyle=C.sand;const p=clamp(this.t/CROSS_DUR,0,1);ctx.fillRect(W-16,550-470*p,4,470*p);
+    if(this.t<3.5)label(T('Move left and right to steer. Avoid the red circles.','حرّك يمينًا ويسارًا للتوجيه. تجنّب الدوائر الحمراء.'),W/2,H-34,'rgba(15,26,32,.9)',12);
+  },
+  hud(){const p=clamp(this.t/CROSS_DUR,0,1);return[tr(T('Boat ','اللنش '))+'●'.repeat(this.hull)+'○'.repeat(3-this.hull),nn(Math.round(p*100))+tr(T('% across','٪ عبورًا'))]},
+  score(){return this.ok?Math.round(this.hull/3*100):0}
+};
+
+/* ═════ 4: the ridge (runner with the flag) ═════ */
+const GROUND=400,PX=110,GOAL=3200;
+function dunes(off,base,amp,col,par){
+  ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,GROUND);
+  for(let x=0;x<=W;x+=10)ctx.lineTo(x,base+Math.sin((x+off*par)*.012)*amp+Math.sin((x+off*par)*.031)*amp*.4);
+  ctx.lineTo(W,GROUND);ctx.closePath();ctx.fill();
+}
+const RUN={
+  init(){
+    this.dist=0;this.y=GROUND;this.vy=0;this.hearts=3;this.inv=0;this.t=0;this.state='run';this.pt=0;this.done=false;this.dawn=false;
+    this.obs=[];let d=520;
+    while(d<GOAL-320){const wire=Math.random()<.55;this.obs.push({wx:d,type:wire?'wire':'crater',w:wire?30:58,hit:false});d+=rnd(250,340)}
+    this.shells=[];this.nextShell=1.2;
+  },
+  jump(){if(this.state==='run'&&this.y>=GROUND-.5)this.vy=-560},
+  down(){this.jump()},
+  hurt(){this.hearts=Math.max(0,this.hearts-1);this.inv=1.2},
+  update(dt){
+    this.t+=dt;
+    this.vy+=1700*dt;this.y=Math.min(GROUND,this.y+this.vy*dt);if(this.y>=GROUND)this.vy=0;
+    if(this.state==='run'){
+      this.inv=Math.max(0,this.inv-dt);
+      const base=150+this.dist/GOAL*50,sp=this.inv>.6?base*.35:base;
+      this.dist+=sp*dt;
+      for(const o of this.obs){
+        if(o.hit)continue;
+        const sx=o.wx-this.dist;
+        if(Math.abs(sx-PX)<o.w/2+5){
+          const bad=o.type==='wire'?this.y>GROUND-20:this.y>GROUND-5;
+          if(bad){o.hit=true;if(this.inv<=0)this.hurt()}
+        }
+      }
+      this.nextShell-=dt;
+      if(this.nextShell<=0&&this.dist<GOAL-500){this.nextShell=rnd(1.1,1.8);this.shells.push({wx:this.dist+PX+rnd(230,380),a:0,hit:false})}
+      for(const s of this.shells){
+        s.a+=dt;
+        if(!s.hit&&s.a>=.9){s.hit=true;if(Math.abs(s.wx-(this.dist+PX))<34&&this.y>GROUND-30&&this.inv<=0)this.hurt()}
+      }
+      this.shells=this.shells.filter(s=>s.a<1.6);
+      if(this.dist+PX>=GOAL-40){this.state='plant';this.pt=0}
+    }else{this.pt+=dt;if(this.pt>2.8)this.done=true}
+  },
+  flagAt(x,y,wave){
+    ctx.strokeStyle='#2a2118';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-58);ctx.stroke();
+    const cols=['#c8392f','#f1ede0','#17181a'];
+    for(let i=0;i<3;i++){const wy=Math.sin(wave+i*.6)*2;ctx.fillStyle=cols[i];ctx.beginPath();ctx.moveTo(x,y-58+i*6);ctx.lineTo(x+28,y-58+i*6+wy);ctx.lineTo(x+28,y-52+i*6+wy);ctx.lineTo(x,y-52+i*6);ctx.closePath();ctx.fill()}
+  },
+  draw(){
+    const dawn=this.dawn;
+    const sg=ctx.createLinearGradient(0,0,0,GROUND);
+    if(dawn){sg.addColorStop(0,'#2a3a63');sg.addColorStop(.7,'#d98a6a');sg.addColorStop(1,'#ffd9a0')}
+    else{sg.addColorStop(0,'#4f86ad');sg.addColorStop(.75,'#a9cadb');sg.addColorStop(1,'#efdcae')}
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,GROUND);
+    const sx0=dawn?60:50,sy0=dawn?GROUND-34:70;
+    const sun=ctx.createRadialGradient(sx0,sy0,4,sx0,sy0,130);sun.addColorStop(0,'rgba(255,240,190,.95)');sun.addColorStop(.25,'rgba(255,215,140,.5)');sun.addColorStop(1,'rgba(255,200,120,0)');
+    ctx.fillStyle=sun;ctx.fillRect(0,Math.max(0,sy0-140),240,280);
+    dunes(this.dist,GROUND-70,16,dawn?'#7a5a6a':'#a58a66',.15);
+    dunes(this.dist,GROUND-34,12,dawn?'#a8684a':'#bf9460',.35);
+    sandBg(GROUND,dawn?'#c4946a':'#d3a866',dawn?'#8a6a48':'#9a7440');
+    ctx.fillStyle='rgba(60,40,20,.22)';
+    for(let r=0;r<5;r++){for(let i=0;i<9;i++){const x=(((i*53+r*21)-this.dist*(1+r*.15))%W+W)%W;ctx.fillRect(x,GROUND+22+r*34,16+r*4,2)}}
+    const px=GOAL-this.dist;
+    if(px<W+60){
+      ctx.fillStyle='#a5793f';ctx.beginPath();ctx.moveTo(px-34,GROUND+2);ctx.quadraticCurveTo(px,GROUND-26,px+34,GROUND+2);ctx.closePath();ctx.fill();
+      if(this.state==='run'){ctx.strokeStyle='rgba(15,26,32,.5)';ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(px,GROUND-70);ctx.lineTo(px,GROUND-26);ctx.stroke();ctx.setLineDash([])}
+    }
+    for(const o of this.obs){
+      const sx=o.wx-this.dist;if(sx<-60||sx>W+60)continue;
+      if(o.type==='wire'){
+        ctx.strokeStyle='#241c12';ctx.lineWidth=1.6;ctx.beginPath();
+        for(let k=0;k<4;k++){ctx.moveTo(sx-15+k*8,GROUND);ctx.arc(sx-11+k*8,GROUND-10,10,0,6.283)}
+        ctx.stroke();
+        ctx.beginPath();ctx.moveTo(sx-16,GROUND-3);ctx.lineTo(sx+16,GROUND-17);ctx.stroke();
+      }else{
+        ctx.fillStyle='#4b3418';ctx.beginPath();ctx.ellipse(sx,GROUND+3,o.w/2,8,0,0,6.283);ctx.fill();
+        ctx.strokeStyle='#e7c887';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx,GROUND+3,o.w/2+2,9,0,Math.PI,6.283);ctx.stroke();
+      }
+    }
+    for(const s of this.shells){
+      const sx=s.wx-this.dist;
+      if(s.a<.9){
+        ctx.strokeStyle=C.flag;ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.beginPath();ctx.ellipse(sx,GROUND+4,34,9,0,0,6.283);ctx.stroke();ctx.setLineDash([]);
+        ctx.fillStyle='rgba(200,57,47,'+(.1+.25*s.a)+')';ctx.beginPath();ctx.ellipse(sx,GROUND+4,34*s.a/.9,9*s.a/.9,0,0,6.283);ctx.fill();
+      }else{
+        const k=(s.a-.9)/.7;
+        for(let j=0;j<5;j++){ctx.fillStyle='rgba(70,48,28,'+(.75*(1-k))+')';ctx.beginPath();ctx.arc(sx+Math.sin(j*2)*10,GROUND-j*18*(.4+k),10+j*5*k+6,0,6.283);ctx.fill()}
+      }
+    }
+    const run=this.state==='run',wa=this.t*14;
+    person(PX-54,GROUND,{s:1.3,walk:run?wa+1:0,hat:'helmet',stache:true,rifle:true});
+    person(PX-88,GROUND,{s:1.12,walk:run?wa+2.4:0,hat:'cap'});
+    const blink=this.inv>0&&Math.floor(this.t*14)%2===0;
+    ctx.globalAlpha=blink?.35:1;
+    const hold=run||this.pt<.4;
+    person(PX,this.y,{s:1.3,walk:run&&this.y>=GROUND?wa:0,rifle:true,pack:true});
+    if(hold)this.flagAt(PX+6,this.y-28,this.t*8);
+    ctx.globalAlpha=1;
+    if(!run){
+      const rise=clamp((this.pt-.4)/2,0,1);
+      ctx.strokeStyle='#2a2118';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px,GROUND-24);ctx.lineTo(px,GROUND-84);ctx.stroke();
+      const fy=GROUND-34-46*rise,cols=['#c8392f','#f1ede0','#17181a'];
+      for(let i=0;i<3;i++){const wy=Math.sin(this.t*8+i*.6)*2;ctx.fillStyle=cols[i];ctx.beginPath();ctx.moveTo(px,fy+i*6);ctx.lineTo(px+28,fy+i*6+wy);ctx.lineTo(px+28,fy+i*6+6+wy);ctx.lineTo(px,fy+i*6+6);ctx.closePath();ctx.fill()}
+    }
+    if(this.t<4&&run)label(T('Tap to jump. Clear wire and craters, avoid shell bursts.','المس للقفز. اقفز فوق الأسلاك والحفر وتجنّب الانفجارات.'),W/2,40,'rgba(15,26,32,.9)',12);
+  },
+  hud(){return[tr(T('Footing ','الثبات '))+'●'.repeat(this.hearts)+'○'.repeat(3-this.hearts),nn(Math.round(clamp((this.dist+PX)/GOAL,0,1)*100))+'%']},
+  score(){return Math.round(this.hearts/3*100)}
+};
+
+/* ═════ 5: the earth rampart ═════ */
+const BR_TIME=45;
+const BREACH={
+  init(){this.t=0;this.s=[100,100,100,100,100];this.p=100;this.lock=false;this.sec=-1;this.jet=false;this.parts=[];this.done=false;this.wash=F.wash?1.15:1;this.cool=F.cool?1.3:1;ptr.down=false},
+  cleared(){return this.s.filter(v=>v<=0).length},
+  update(dt){
+    this.t+=dt;this.jet=false;
+    if(ptr.down&&!this.lock&&this.p>0){
+      const i=clamp(Math.floor((ptr.x-24)/70),0,4);
+      if(this.s[i]>0){
+        this.sec=i;this.jet=true;
+        this.s[i]=Math.max(0,this.s[i]-36*this.wash*dt);
+        this.p-=26*dt;
+        if(this.p<=0){this.p=0;this.lock=true}
+        const ty=330-this.s[i]/100*220;
+        for(let k=0;k<2;k++)this.parts.push({x:24+i*70+rnd(6,58),y:ty+rnd(0,8),vx:rnd(-40,40),vy:rnd(-90,-20),l:.6});
+      }
+    }
+    if(!this.jet){this.p=Math.min(100,this.p+(this.lock?14:24)*this.cool*dt);if(this.lock&&this.p>=40)this.lock=false}
+    for(const q of this.parts){q.l-=dt;q.vy+=260*dt;q.x+=q.vx*dt;q.y+=q.vy*dt}
+    this.parts=this.parts.filter(q=>q.l>0);
+    if(this.cleared()===5||this.t>=BR_TIME)this.done=true;
+  },
+  draw(){
+    const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#c9ad7a');g.addColorStop(.55,C.sandLt);g.addColorStop(.55,C.canalDk);g.addColorStop(1,C.canal);
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(95,182,207,.28)';ctx.lineWidth=1.2;
+    for(let j=0;j<10;j++){const y=345+((j*26+this.t*20)%250);ctx.beginPath();for(let x=0;x<=W;x+=16){const yy=y+Math.sin(x*.05+j+this.t*2)*2;x?ctx.lineTo(x,yy):ctx.moveTo(x,yy)}ctx.stroke()}
+    label(T('EAST BANK · EARTH RAMPART','الضفة الشرقية · الساتر الترابي'),200,70,'rgba(15,26,32,.65)',10);
+    for(let i=0;i<5;i++){
+      const x0=24+i*70,w=64,hp=this.s[i];
+      if(hp>0){
+        const h=hp/100*220,top=330-h;
+        const sg=ctx.createLinearGradient(0,top,0,330);sg.addColorStop(0,C.sandLt);sg.addColorStop(1,C.sandDk);
+        ctx.fillStyle=sg;ctx.beginPath();ctx.moveTo(x0-6,330);ctx.lineTo(x0+8,top);ctx.lineTo(x0+w-8,top);ctx.lineTo(x0+w+6,330);ctx.closePath();ctx.fill();
+        ctx.strokeStyle='rgba(15,26,32,.22)';ctx.lineWidth=1;
+        for(let y=top+14;y<330;y+=14){ctx.beginPath();ctx.moveTo(x0+4,y);ctx.lineTo(x0+w-4,y+Math.sin(y)*2);ctx.stroke()}
+        ctx.fillStyle='rgba(15,26,32,.45)';ctx.fillRect(x0,336,w,4);
+        ctx.fillStyle=C.sand;ctx.fillRect(x0,336,w*hp/100,4);
+      }else{
+        ctx.fillStyle=C.canal;ctx.fillRect(x0-6,300,w+12,34);
+        label(T('OPEN','مفتوح'),x0+w/2,326,C.text,10);
+      }
+    }
+    const nx=200,ny=548;
+    if(this.jet){
+      const i=this.sec,tx=24+i*70+32,ty=330-this.s[i]/100*220+10;
+      for(let k=0;k<3;k++){
+        ctx.strokeStyle=k?'rgba(95,182,207,.7)':'rgba(255,255,255,.85)';ctx.lineWidth=k?2:3;
+        ctx.beginPath();ctx.moveTo(nx,ny);ctx.quadraticCurveTo((nx+tx)/2+rnd(-8,8),(ny+ty)/2-40+rnd(-8,8),tx+rnd(-4,4),ty+rnd(-2,2));ctx.stroke();
+      }
+    }
+    ctx.fillStyle='#e8c885';
+    for(const q of this.parts){ctx.globalAlpha=clamp(q.l/.6,0,1);ctx.fillRect(q.x,q.y,3,3)}
+    ctx.globalAlpha=1;
+    ctx.fillStyle='#55633a';ctx.strokeStyle='#1d2614';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.rect(170,538,60,26);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#2a3320';ctx.fillRect(194,528,12,14);
+    ctx.fillStyle='rgba(15,26,32,.6)';ctx.fillRect(30,580,340,8);
+    ctx.fillStyle=this.lock?C.flag:C.canalLt;ctx.fillRect(30,580,340*this.p/100,8);
+    label(this.lock?T('PUMP OVERHEATED','المضخة سخنت'):T('PUMP PRESSURE','ضغط المضخة'),30,574,this.lock?C.flag:'rgba(231,227,214,.9)',10,'left');
+    if(this.t<4&&!this.paused)label(T('Hold on a section to wash it away','اضغط مطولًا على جزء لإزالته'),W/2,40,'rgba(15,26,32,.9)',12);
+  },
+  hud(){return[tr(T('Gaps ','الثغرات '))+nn(this.cleared())+' / '+nn(5),nn(Math.max(0,Math.ceil(BR_TIME-this.t)))+tr(T(' s left',' ث متبقية'))]},
+  score(){return Math.round(this.cleared()/5*100)}
+};
+
+/* ═════ 6: the bridge ═════ */
+const BR_N=9,SEC_H=54,SEC_BASE=566;
+const BRIDGE={
+  init(){this.sec=[{cx:200,w:150}];this.start=150;this.cur={x:60,dir:1,w:150};this.sp=130;this.misses=0;this.perf=0;this.fx=[];this.t=0;this.done=false},
+  curTop(){return SEC_BASE-SEC_H*(this.sec.length+1)},
+  down(){
+    if(this.done)return;
+    const last=this.sec[this.sec.length-1],c=this.cur;
+    const l=Math.max(c.x-c.w/2,last.cx-last.w/2),r=Math.min(c.x+c.w/2,last.cx+last.w/2),ov=r-l;
+    if(ov<14){
+      this.misses++;this.fx.push({x:c.x,y:this.curTop()+SEC_H/2,a:0,miss:true});
+      c.x=c.dir>0?40:360;c.dir*=-1;return;
+    }
+    const perfect=Math.abs(c.x-last.cx)<5;
+    const w=perfect?Math.min(this.start,last.w+6):ov,cx=perfect?last.cx:(l+r)/2;
+    if(perfect)this.perf++;
+    this.fx.push({x:cx,y:this.curTop()+SEC_H/2,a:0,perfect});
+    this.sec.push({cx,w});
+    this.sp=Math.min(235,this.sp+11);
+    this.cur={x:c.dir>0?40:360,dir:c.dir,w};
+    if(this.sec.length>=BR_N)this.done=true;
+  },
+  jump(){this.down()},
+  update(dt){
+    this.t+=dt;const c=this.cur;
+    c.x+=c.dir*this.sp*dt;
+    if(c.x-c.w/2<14){c.x=14+c.w/2;c.dir=1}
+    if(c.x+c.w/2>W-14){c.x=W-14-c.w/2;c.dir=-1}
+    for(const f of this.fx)f.a+=dt;
+    this.fx=this.fx.filter(f=>f.a<.7);
+  },
+  pontoon(cx,w,top,alpha){
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle='#4e5a34';ctx.strokeStyle='#1d2614';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.rect(cx-w/2,top+4,w,SEC_H-8);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#6d7a47';ctx.fillRect(cx-w/2+3,top+7,w-6,SEC_H-14);
+    ctx.strokeStyle='rgba(15,26,32,.35)';ctx.lineWidth=1;
+    for(let x=cx-w/2+14;x<cx+w/2-6;x+=14){ctx.beginPath();ctx.moveTo(x,top+9);ctx.lineTo(x,top+SEC_H-11);ctx.stroke()}
+    ctx.globalAlpha=1;
+  },
+  draw(){
+    drawWater(this.t);
+    const last=this.sec[this.sec.length-1];
+    if(!this.done){
+      ctx.strokeStyle='rgba(255,255,255,.35)';ctx.setLineDash([4,5]);ctx.lineWidth=1;
+      for(const e of [last.cx-last.w/2,last.cx+last.w/2]){ctx.beginPath();ctx.moveTo(e,this.curTop()+SEC_H);ctx.lineTo(e,70);ctx.stroke()}
+      ctx.setLineDash([]);
+    }
+    this.sec.forEach((s,i)=>this.pontoon(s.cx,s.w,SEC_BASE-SEC_H*(i+1),1));
+    if(!this.done)this.pontoon(this.cur.x,this.cur.w,this.curTop(),.95);
+    for(const f of this.fx){
+      const k=f.a/.7;
+      if(f.miss){ctx.strokeStyle='rgba(255,255,255,'+(1-k)+')';ctx.lineWidth=3;ctx.beginPath();ctx.arc(f.x,f.y,10+k*40,0,6.283);ctx.stroke()}
+      else if(f.perfect){ctx.strokeStyle='rgba(255,226,140,'+(1-k)+')';ctx.lineWidth=3;ctx.strokeRect(f.x-90-k*6,f.y-SEC_H/2-k*6,180+k*12,SEC_H+k*12)}
+    }
+    if(this.t<4)label(T('Tap to lock each pontoon above the last','المس لتثبيت كل عوّامة فوق التي قبلها'),W/2,H-34,'rgba(15,26,32,.9)',12);
+  },
+  hud(){return[tr(T('Sections ','القطع '))+nn(this.sec.length)+' / '+nn(BR_N),tr(T('Slips ','أخطاء '))+nn(this.misses)]},
+  score(){return clamp(70+this.perf*4-this.misses*15,0,100)}
+};
+
+/* ═════ 7: hold the line ═════ */
+const D_TOT=14,D_LINE=135,LANES=[330,372,414],LSC=[.7,.85,1];
+const HX=104,HY=392;
+function tank(x,y,s,t){
+  ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+  ctx.fillStyle='#2b2a22';ctx.fillRect(-34,-12,68,12);
+  ctx.fillStyle='#46453a';for(let k=-26;k<=26;k+=13){ctx.beginPath();ctx.arc(k,-6,5,0,6.283);ctx.fill()}
+  ctx.fillStyle='#6b6a4a';ctx.beginPath();ctx.moveTo(-32,-12);ctx.lineTo(-26,-25);ctx.lineTo(26,-25);ctx.lineTo(34,-12);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#7a7955';ctx.fillRect(-12,-35,28,11);
+  ctx.fillStyle='#3a3a2a';ctx.fillRect(-48,-32,38,4);
+  ctx.strokeStyle='rgba(15,26,32,.5)';ctx.lineWidth=1;ctx.strokeRect(-34,-12,68,12);
+  ctx.restore();
+}
+const DEFEND={
+  init(){this.t=0;this.T=[];this.spawned=0;this.next=1.5;this.hearts=3;this.kills=0;this.rl=0;this.fx=[];this.done=false;ptr.down=false},
+  down(x,y){
+    if(this.rl>0){this.fx.push({k:'puff',x,y,a:0});return}
+    let best=null,bd=1e9;
+    for(const o of this.T){
+      const dx=Math.abs(o.x-x),dy=Math.abs((o.y-16*o.s)-y);
+      if(dx<40*o.s+10&&dy<30*o.s+12){const d=dx+dy;if(d<bd){bd=d;best=o}}
+    }
+    this.rl=best?.7:.3;
+    this.fx.push({k:'trace',x0:HX,y0:HY,x1:best?best.x:x,y1:best?best.y-16*best.s:y,a:0});
+    if(best){this.T=this.T.filter(o=>o!==best);this.kills++;this.fx.push({k:'boom',x:best.x,y:best.y-16*best.s,a:0})}
+    else this.fx.push({k:'puff',x,y,a:0});
+  },
+  update(dt){
+    this.t+=dt;this.rl=Math.max(0,this.rl-dt);this.next-=dt;
+    if(this.spawned<D_TOT&&this.next<=0){
+      this.next=rnd(1.7,2.5);this.spawned++;
+      const l=Math.floor(Math.random()*3);
+      this.T.push({x:W+50,y:LANES[l],s:LSC[l],sp:rnd(26,38)});
+    }
+    for(const o of this.T)o.x-=o.sp*dt;
+    const keep=[];
+    for(const o of this.T){
+      if(o.x<D_LINE){this.hearts=Math.max(0,this.hearts-1);this.fx.push({k:'boom',x:D_LINE,y:o.y-16*o.s,a:0})}
+      else keep.push(o);
+    }
+    this.T=keep;
+    for(const f of this.fx)f.a+=dt;
+    this.fx=this.fx.filter(f=>f.a<.9);
+    if(this.spawned===D_TOT&&this.T.length===0)this.done=true;
+  },
+  draw(){
+    const sg=ctx.createLinearGradient(0,0,0,300);sg.addColorStop(0,'#0c1430');sg.addColorStop(1,'#3a3050');
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,300);
+    ctx.fillStyle='#fff';
+    for(const s of STARS){ctx.globalAlpha=.5+.4*Math.sin(this.t*2+s.x);ctx.fillRect(s.x,s.y,s.r,s.r)}
+    ctx.globalAlpha=1;
+    const fl=(Math.sin(this.t*.9)+1)/2;
+    const fg=ctx.createRadialGradient(300,80,2,300,80,150);fg.addColorStop(0,'rgba(255,240,190,'+(.25+.4*fl)+')');fg.addColorStop(1,'rgba(255,240,190,0)');
+    ctx.fillStyle=fg;ctx.fillRect(130,0,270,240);
+    ctx.fillStyle='#fff6d0';ctx.beginPath();ctx.arc(300,80,2.8+fl,0,6.283);ctx.fill();
+    ctx.fillStyle='#1c1a2a';ctx.beginPath();ctx.moveTo(0,300);
+    for(let x=0;x<=W;x+=20)ctx.lineTo(x,288+Math.sin(x*.04)*6);
+    ctx.lineTo(W,300);ctx.closePath();ctx.fill();
+    sandBg(298,'#5a4630','#251c14');
+    ctx.fillStyle='rgba(6,10,28,.25)';ctx.fillRect(0,298,W,H-298);
+    ctx.strokeStyle='rgba(255,255,255,.07)';ctx.lineWidth=1;
+    for(const ly of LANES){ctx.beginPath();ctx.moveTo(D_LINE,ly+2);ctx.lineTo(W,ly+2);ctx.stroke()}
+    ctx.strokeStyle='rgba(200,57,47,.5)';ctx.setLineDash([6,6]);ctx.beginPath();ctx.moveTo(D_LINE,310);ctx.lineTo(D_LINE,440);ctx.stroke();ctx.setLineDash([]);
+    const order=this.T.slice().sort((a,b)=>a.y-b.y);
+    for(const o of order)tank(o.x,o.y,o.s,this.t);
+    ctx.fillStyle='#1a140e';ctx.fillRect(0,402,128,70);
+    person(30,436,{s:1.15,hat:'cap'});
+    person(66,436,{s:1.3,hat:'helmet',stache:true,rifle:true});
+    person(HX-6,436,{s:1.3,hat:'helmet',rifle:true,pack:true,face:1});
+    ctx.fillStyle='#8a7248';
+    for(let x=6;x<128;x+=22){ctx.beginPath();ctx.ellipse(x+8,408,13,6,0,0,6.283);ctx.fill()}
+    for(const f of this.fx){
+      const k=f.a/.9;
+      if(f.k==='trace'){ctx.strokeStyle='rgba(255,230,160,'+(1-Math.min(1,k*4))+')';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(f.x0,f.y0);ctx.lineTo(f.x1,f.y1);ctx.stroke()}
+      else if(f.k==='boom'){
+        boom({x:f.x,y:f.y,a:Math.min(1,k*1.4)});
+        for(let j=0;j<4;j++){ctx.fillStyle='rgba(40,34,30,'+(.6*(1-k))+')';ctx.beginPath();ctx.arc(f.x+Math.sin(j*2)*8,f.y-10-k*40-j*10,10+j*4,0,6.283);ctx.fill()}
+      }else{ctx.strokeStyle='rgba(231,227,214,'+(.5*(1-k))+')';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(f.x,f.y,6+k*14,0,6.283);ctx.stroke()}
+    }
+    if(this.rl>0){ctx.fillStyle='rgba(231,227,214,.18)';ctx.fillRect(30,466,150,6);ctx.fillStyle=C.sand;ctx.fillRect(30,466,150*(1-this.rl/.7),6)}
+    if(this.t<4)label(T('Tap a tank to fire. Do not let them cross the red line.','المس الدبابة لإطلاق النار. لا تدعها تتجاوز الخط الأحمر.'),W/2,40,'rgba(231,227,214,.92)',12);
+  },
+  hud(){return[tr(T('Line ','الخط '))+'●'.repeat(this.hearts)+'○'.repeat(3-this.hearts),tr(T('Tanks hit ','دبابات مصابة '))+nn(this.kills)+' / '+nn(D_TOT)]},
+  score(){return Math.round(this.kills/D_TOT*100)}
+};
+
+/* ═════ 8: dawn ═════ */
+const EPI={
+  init(){RUN.init();RUN.dawn=true;RUN.dist=GOAL-PX-70;RUN.state='plant';RUN.pt=3.2;RUN.hearts=3;this.done=false},
+  update(dt){RUN.t+=dt},
+  draw(){RUN.draw();person(PX+190,GROUND,{s:1.2,hat:'cap',body:'#7d7a55',pot:true,face:-1})},
+  hud(){return[tr(T('Dawn · 7 October','الفجر · ٧ أكتوبر')),'']}
+};
+
+/* ───── flow ───── */
+let S=null;
+function setScene(s,paused){S=s;s.paused=!!paused;s.fired=false;s.onDone=null;s.init()}
+function card(html,btn,cb){
+  ov.hidden=false;
+  ov.innerHTML='<div class="in">'+html+'<div class="btns"><button class="btn" id="go">'+btn+'</button></div></div>';
+  ov.scrollTop=0;
+  const b=$('#go');b.onclick=()=>{ov.hidden=true;cb()};
+  try{b.focus({preventScroll:true})}catch(_){}
+}
+const tag=t=>'<div class="tag">'+tr(t)+'</div>';
+function chap(o,cb){
+  card(tag(o.tag)+'<h2>'+tr(o.h)+'</h2><p>'+tr(o.p)+'</p>'+(o.how?'<p class="how">'+tr(o.how)+'</p>':''),tr(BTN.start),cb);
+}
+
+function title(){
+  resetState();setLang(detectLang());
+  setScene(CAMP,true);
+  ov.hidden=false;
+  const ar=LANG==='ar';
+  ov.innerHTML='<div class="in"><div class="ar" lang="ar">العبور</div>'
+    +'<div class="tag">'+(ar?'مصر · حرب أكتوبر · ١٩٧٣':'Egypt · October War · 1973')+'</div>'
+    +'<h2>'+(ar?'العبور':'The crossing')+'</h2>'
+    +'<p>'+(ar?'اتبع عريفًا مصريًا طوال اليوم الأول من حرب أكتوبر: الليلة السابقة، والمدافع، والقناة، والساتر الترابي، والكوبري، والليل الطويل على الضفة الشرقية.'
+              :'Follow one Egyptian corporal through the first day of the October War: the night before, the guns, the canal, the earth rampart, the bridge and the long night on the Sinai bank.')+'</p>'
+    +'<p class="how">'+(ar?'حسن وعادل ومصطفى وسمير وسيد شخصيات خيالية، أما الأحداث فحقيقية. المدة نحو ١٥ دقيقة.'
+              :'Hassan, Adel, Mostafa, Samir and Sayed are fictional. The events they live through are real. About fifteen minutes.')+'</p>'
+    +'<div class="btns"><button class="btn" id="go">'+(ar?'ابدأ':'Begin')+'</button></div></div>';
+  const b=$('#go');b.onclick=()=>{ov.hidden=true;ch1()};
+  try{b.focus({preventScroll:true})}catch(_){}
+}
+function ch1(){
+  chap({
+    tag:T('Chapter 1 · 5 October · Dusk','الفصل ١ · ٥ أكتوبر · الغروب'),
+    h:T('The night before','الليلة السابقة'),
+    p:T('Since June 1967 the whole army has trained for a single day. Tonight, on the west bank of the Suez Canal, the last evening is quiet.','منذ يونيو ١٩٦٧ والجيش كله يتدرّب ليوم واحد. الليلة، على الضفة الغربية لقناة السويس، يخيّم هدوء آخر المساء.'),
+    how:T('Tap to walk. Tap a soldier to talk. Talk to all four.','المس للمشي. المس جنديًا للحديث معه. تحدّث مع الأربعة.')
+  },()=>{
+    setScene(CAMP,false);
+    say([
+      {t:T('Evening, 5 October 1973. The west bank of the Suez Canal.','مساء ٥ أكتوبر ١٩٧٣. الضفة الغربية لقناة السويس.')},
+      {t:T('Hassan, 22, a corporal from Shubra in Cairo, has worn the uniform for four years. He has not slept well since the rumours began.','حسن، ٢٢ عامًا، عريف من شبرا بالقاهرة، يرتدي الزي العسكري منذ أربع سنوات. لم ينم جيدًا منذ بدأت الشائعات.')}
+    ],()=>{CAMP.busy=false});
+  });
+}
+function ch2(){
+  chap({
+    tag:T('Chapter 2 · 6 October · 14:00','الفصل ٢ · ٦ أكتوبر · ٢:٠٠ ظهرًا'),
+    h:T('Zero hour','ساعة الصفر'),
+    p:T('Jets, then guns. From the water’s edge your section watches the far bank disappear in smoke. Your eyes are needed.','طائرات ثم مدافع. من حافة الماء تراقب فصيلتك الضفة الأخرى وهي تختفي في الدخان. عيناك مطلوبتان.')
+  },()=>{
+    setScene(SKY,false);
+    say([
+      {t:T('Saturday, 6 October. The tenth of Ramadan. 14:00. The sky above the canal fills with the sound of engines.','السبت ٦ أكتوبر. العاشر من رمضان. الساعة الثانية ظهرًا. تمتلئ سماء القناة بهدير المحركات.')},
+      {w:'mostafa',t:T('That is ours. Look up, Hassan. That is ours.','دي بتاعتنا. بص لفوق يا حسن. دي بتاعتنا.')},
+      {t:T('Six years ago the air force died on its runways. Today the jets cross the canal low and fast.','قبل ست سنوات دُمّر سلاح الطيران على مدارجه. اليوم تعبر الطائرات القناة منخفضة وسريعة.')},
+      {t:T('Then the guns open, all along the canal at once. The far bank vanishes into smoke.','ثم تنطلق المدافع على امتداد القناة دفعة واحدة. وتختفي الضفة الأخرى في الدخان.')},
+      {w:'mostafa',t:T('Hassan! Your eyes are the best in the section. Mark the strongpoints for the guns. Fast!','حسن! عينك أحسن عين في الفصيلة. علّم النقاط الحصينة للمدفعية. بسرعة!')}
+    ],()=>{
+      setScene(AIR,false);
+      S.onDone=()=>{
+        SC.spot=AIR.score();
+        ch3();
+      };
+    });
+  });
+}
+function ch3(){
+  chap({
+    tag:T('Chapter 3 · 14:20','الفصل ٣ · ٢:٢٠ ظهرًا'),
+    h:T('Across the canal','عبر القناة'),
+    p:T('The boats go into the water, wave after wave. Steady steering decides who reaches the east bank.','تنزل اللنشات إلى الماء موجة بعد موجة. وثبات التوجيه يحدّد من يصل إلى الضفة الشرقية.'),
+    how:T('Move your finger or mouse left and right to steer. Your boat takes three hits.','حرّك إصبعك أو الفأرة يمينًا ويسارًا للتوجيه. يتحمّل لنشك ثلاث إصابات.')
+  },()=>{
+    setScene(SKY,false);
+    say([
+      {w:'mostafa',t:AIR_SC()>=60?T('Good eyes. The guns have what they need.','عين زي الصقر. المدفعية خدت اللي محتاجاه.'):T('Some of them got through. Keep your head down.','كام واحدة فلتت. خلّي راسك واطية.')},
+      {w:'adel',t:T('Corporal... my hands. I cannot feel my hands.','يا عريف... إيديا. مش حاسس بإيديا.')},
+      {ask:[
+        {l:T('Hold the rope. I am right here.','امسك الحبل. أنا جنبك.'),f:()=>{F.adel='steady'},say:[{w:'adel',t:T('Right here. Okay. Right here.','جنبي. حاضر. جنبي.')}]},
+        {l:T('Count the strokes with me. One, two...','عدّ معايا المجاديف. واحد، اتنين...'),f:()=>{F.adel='count'},say:[{w:'adel',t:T('One... two... three...','واحد... اتنين... تلاتة...')}]}
+      ]},
+      {w:'mostafa',t:T('Boats in the water! Go, go, go!','اللنشات في المية! يلا يلا يلا!')}
+    ],()=>{
+      setScene(CROSS,false);
+      S.onDone=()=>{
+        SC.cross=CROSS.score();S.paused=true;
+        say(CROSS.ok?[
+          {w:'mostafa',t:T('Allahu Akbar!','الله أكبر!')},
+          {t:T('All along the canal the same cry rises from thousands of throats.','على امتداد القناة يرتفع النداء نفسه من آلاف الحناجر.')},
+          {w:'hassan',t:T('Allahu Akbar.','الله أكبر.')},
+          {t:T('The boat scrapes sand. The east bank. Sinai.','يلامس اللنش الرمل. الضفة الشرقية. سيناء.')}
+        ]:[
+          {t:T('The boat goes over in the shallows. Mostafa hauls you and Adel up the bank by your collars.','ينقلب اللنش في المياه الضحلة. يسحبك مصطفى وعادل من ياقتيكما إلى الشاطئ.')},
+          {w:'mostafa',t:T('Allahu Akbar! Up! Up!','الله أكبر! قوم! قوم!')},
+          {t:T('Your boots find sand. The east bank. Sinai.','تلمس حذاءك الرمال. الضفة الشرقية. سيناء.')}
+        ],ch4);
+      };
+    });
+  });
+}
+function AIR_SC(){return SC.spot||0}
+function ch4(){
+  chap({
+    tag:T('Chapter 4 · 14:40','الفصل ٤ · ٢:٤٠ ظهرًا'),
+    h:T('The flag on the ridge','العلم على الربوة'),
+    p:T('Beyond the water, the first ridge of Sinai. Someone has to carry the flag to the top.','خلف الماء أول ربوة في سيناء. لا بد أن يحمل أحدهم العلم إلى القمة.'),
+    how:T('Tap to jump. Clear wire and craters. Stay out of the red circles on the ground.','المس للقفز. اقفز فوق الأسلاك والحفر. ابتعد عن الدوائر الحمراء على الأرض.')
+  },()=>{
+    setScene(RUN,true);
+    say([
+      {t:T('Your boots are on Sinai for the first time. Mostafa presses something folded tight into your hands.','حذاؤك على أرض سيناء لأول مرة. يضغط مصطفى في يديك شيئًا مطويًا بإحكام.')},
+      {w:'mostafa',t:T('The flag. Carry it up that ridge. Run.','العلم. شيله لحد الربوة دي. اجري.')},
+      {w:'adel',t:T('I will be right behind you, Corporal.','أنا وراك على طول يا عريف.')}
+    ],()=>{
+      S.paused=false;
+      S.onDone=()=>{
+        SC.run=RUN.score();S.paused=true;
+        say([
+          {t:T('You drive the pole into the sand. The wind finds the cloth.','تغرس السارية في الرمل. وتجد الريح القماش.')},
+          {w:'mostafa',t:F.honest?T('You said you were afraid, and here you are. That is all courage has ever been.','قلت إنك خايف، وأهو إنت هنا. دي كل الشجاعة.'):T('You said you were ready. You were. Good lad.','قلت جاهز. وكنت جاهز. أحسنت يا ابني.')},
+          {t:T('Far behind you, on the west bank, thousands more men are waiting for their boats.','وراءك بعيدًا، على الضفة الغربية، ينتظر آلاف آخرون لنشاتهم.')}
+        ],ch5);
+      };
+    });
+  });
+}
+function ch5(){
+  chap({
+    tag:T('Chapter 5 · Afternoon','الفصل ٥ · العصر'),
+    h:T('The earth rampart','الساتر الترابي'),
+    p:T('Ahead of the infantry stands a rampart of packed sand, built to keep vehicles from leaving the water. Armour cannot cross until it comes down.','أمام المشاة يقف ساتر من الرمال المدكوكة، بُني ليمنع المركبات من مغادرة الماء. ولا تعبر المدرعات قبل أن يسقط.'),
+    how:T('Press and hold on a section to wash it away. The pump overheats if you hold too long. Open all five gaps in 45 seconds.','اضغط مطولًا على جزء لإزالته. تسخن المضخة إن أطلت الضغط. افتح الثغرات الخمس في ٤٥ ثانية.')
+  },()=>{
+    setScene(BREACH,true);
+    say([
+      {t:T('Late afternoon. Behind the bank, the earth rampart: steep as a roof and as tall as a building.','عصرًا. خلف الشاطئ يقف الساتر الترابي: شديد الانحدار كسقف وعالٍ كعمارة.')},
+      {w:'samir',t:T('Pumps are in. Hassan, take the nozzle. Sand does not argue with water. It only takes time.','المضخات اشتغلت. يا حسن، امسك الخرطوم. الرمل مبيتخانقش مع المية. هو بس بياخد وقت.')}
+    ],()=>{
+      S.paused=false;
+      S.onDone=()=>{
+        SC.breach=BREACH.score();S.paused=true;
+        const n=BREACH.cleared();
+        say([
+          {w:'samir',t:n===5?T('Every gap is open. Send the armour.','كل الثغرات اتفتحت. ابعتوا المدرعات.'):n>=3?T('Enough. Engineers, the bridges. Now.','كفاية. المهندسين، الكباري. دلوقتي.'):T('Not enough, but we work through the night.','مش كفاية، بس هنكمّل طول الليل.')},
+          {t:T('Egyptian engineers had practised this for years. Now the bridges must go across before dark.','تدرّب المهندسون المصريون على هذا لسنوات. والآن يجب أن تُمدّ الكباري قبل حلول الظلام.')}
+        ],ch6);
+      };
+    });
+  });
+}
+function ch6(){
+  chap({
+    tag:T('Chapter 6 · Evening','الفصل ٦ · المساء'),
+    h:T('The bridge','الكوبري'),
+    p:T('Pontoon by pontoon, the engineers join the two banks. Every section must sit squarely on the one before it, or the bridge narrows.','عوّامة بعد عوّامة يصل المهندسون بين الضفتين. يجب أن تستقر كل قطعة تمامًا فوق التي قبلها، وإلا ضاق الكوبري.'),
+    how:T('Tap to lock each pontoon where it lines up. Nine sections reach the east bank.','المس لتثبيت كل عوّامة حين تتطابق. تسع قطع تصل إلى الضفة الشرقية.')
+  },()=>{
+    setScene(BRIDGE,true);
+    say([
+      {w:'samir',t:T('Hassan, you have steady hands. Help with the pontoons. Line each section up with the last. Lock it when it is true.','يا حسن، إيدك ثابتة. ساعدنا في العوامات. اضبط كل قطعة على اللي قبلها. وثبّتها لما تتظبط.')}
+    ],()=>{
+      S.paused=false;
+      S.onDone=()=>{
+        SC.bridge=BRIDGE.score();S.paused=true;
+        say([
+          {w:'samir',t:T('The bridge holds. Listen.','الكوبري ثبت. اسمع.')},
+          {t:T('The first tank rumbles across the pontoons. On the west bank men cheer without a sound, because the night is full of ears.','تعبر أول دبابة فوق العوامات. وعلى الضفة الغربية يهلّل الرجال بلا صوت، فالليل مليء بالآذان.')}
+        ],ch7);
+      };
+    });
+  });
+}
+function ch7(){
+  chap({
+    tag:T('Chapter 7 · Night','الفصل ٧ · الليل'),
+    h:T('Hold the line','ثبّتوا الخط'),
+    p:T('Infantry teams with anti-tank weapons dig in beside the bridgehead. An armoured counterattack is expected before dawn.','تتحصّن مجموعات المشاة المسلّحة بالأسلحة المضادة للدبابات بجوار رأس الكوبري. ويُنتظر هجوم مدرّع مضاد قبل الفجر.'),
+    how:T('Tap a tank to fire. Reloading takes a moment. Do not let them cross the red line.','المس الدبابة لإطلاق النار. إعادة التعمير تأخذ لحظة. لا تدعها تتجاوز الخط الأحمر.')
+  },()=>{
+    setScene(DEFEND,true);
+    say([
+      {t:T('Night. Flares hang over the sand. Far off, the sound of tracks.','ليل. تتدلى المشاعل فوق الرمال. وعلى البعد صوت جنازير.')},
+      {w:'mostafa',t:T('They will come straight at the bridge. Let them come close. Then hit them hard.','هيجوا على الكوبري مباشرة. سيبهم يقربوا. وبعدين اضرب بقوة.')},
+      {w:'adel',t:T('Corporal, I am not afraid. Well, a little.','يا عريف، أنا مش خايف. يعني شوية بس.')}
+    ],()=>{
+      S.paused=false;
+      S.onDone=()=>{
+        SC.defend=DEFEND.score();S.paused=true;
+        say([
+          {w:'mostafa',t:DEFEND.score()>=70?T('They turned back. The bridge is ours tonight.','رجعوا. الكوبري بتاعنا الليلة.'):T('The line bent, but it did not break. We held.','الخط اتحنى، بس ما انكسرش. ثبتنا.')}
+        ],ch8);
+      };
+    });
+  });
+}
+function ch8(){
+  chap({
+    tag:T('Chapter 8 · 7 October · Dawn','الفصل ٨ · ٧ أكتوبر · الفجر'),
+    h:T('Morning on the east bank','صباح على الضفة الشرقية'),
+    p:T('The night is over. The flag is still standing.','انتهى الليل. والعلم لا يزال مرفوعًا.')
+  },()=>{
+    setScene(EPI,false);
+    say([
+      {t:T('Dawn, 7 October. The flag still stands on the ridge. Behind it the canal is crowded with boats and bridges.','فجر ٧ أكتوبر. العلم لا يزال مرفوعًا على الربوة. وخلفه القناة مزدحمة باللنشات والكباري.')},
+      {w:'sayed',t:T('Tea, Corporal. I carried the pot across the bridge myself. Do not ask how.','شاي يا عريف. أنا اللي عدّيت بالإبريق على الكوبري. متسألش إزاي.')},
+      {w:'sayed',t:F.tea?T('Two sugars for the sergeant, as promised.','معلقتين سكر للرقيب، زي ما وعدت.'):T('I kept the pot warm, as promised.','فضّلت مسخّن الإبريق، زي ما وعدت.')},
+      {w:'mostafa',t:T('In ’67 I walked out of Sinai. This morning I am standing in it.','في ٦٧ خرجت من سيناء ماشي. الصبح ده واقف فيها.')},
+      {w:'adel',t:F.letter?T('Corporal, the letter. I will add one line: Mama, we crossed.','يا عريف، الجواب. هضيف سطر: يا ماما، عدّينا.'):T('Corporal, may I borrow your pencil? I have a letter to write.','يا عريف، أستلف قلمك؟ عندي جواب لازم أكتبه.')},
+      {t:T('Somewhere in Shubra, a mother turns up the radio.','في مكان ما في شبرا، تُعلّي أمٌّ صوت الراديو.')},
+      {t:T('Hassan, Adel, Mostafa, Samir and Sayed are made up. The men who crossed that day were not. The fighting went on for weeks, until a ceasefire in late October.','حسن وعادل ومصطفى وسمير وسيد شخصيات خيالية. أما الرجال الذين عبروا ذلك اليوم فحقيقيون. استمر القتال أسابيع حتى وقف إطلاق النار في أواخر أكتوبر.')}
+    ],finish);
+  });
+}
+function finish(){
+  const keysS=['spot','cross','run','breach','bridge','defend'];
+  const names=[T('Marking targets','تحديد الأهداف'),T('Boat crossing','عبور اللنش'),T('Flag on the ridge','العلم على الربوة'),T('Earth rampart','الساتر الترابي'),T('The bridge','الكوبري'),T('Hold the line','تثبيت الخط')];
+  const sc=keysS.map(k=>SC[k]||0);
+  const avg=Math.round(sc.reduce((a,b)=>a+b,0)/sc.length);
+  const rank=avg>=80?T('Crossing secured','تم تأمين العبور'):avg>=50?T('Bridgehead held','رأس الكوبري صامد'):T('Bridgehead contested','رأس الكوبري متنازع عليه');
+  const rows=sc.map((s,i)=>'<div><span>'+tr(names[i])+'</span><span>'+nn(s)+'%</span></div>').join('');
+  const facts=[
+    [T('The barrier.','الحاجز.'),T('The Bar Lev Line was a chain of earth ramparts and fortified positions along the canal’s east bank.','كان خط بارليف سلسلة من السواتر الترابية والنقاط الحصينة على الضفة الشرقية للقناة.')],
+    [T('The idea.','الفكرة.'),T('Opening the rampart with pumped water is credited to the Egyptian engineer Baqi Zaki Youssef.','يُنسب فتح الساتر الترابي بالمياه المضخوخة إلى المهندس المصري باقي زكي يوسف.')],
+    [T('The name.','الاسم.'),T('Badr recalls the Battle of Badr, fought in Ramadan, the month in which the war began.','تستحضر «بدر» غزوة بدر التي وقعت في رمضان، الشهر الذي بدأت فيه الحرب.')],
+    [T('Afterwards.','بعد الحرب.'),T('The war led to negotiations and, in 1979, the Egypt–Israel peace treaty. Egypt marks 6 October every year.','قادت الحرب إلى مفاوضات ثم إلى معاهدة السلام المصرية الإسرائيلية عام ١٩٧٩. وتحتفل مصر كل عام بذكرى السادس من أكتوبر.')]
+  ].map(f=>'<li><b>'+tr(f[0])+'</b> '+tr(f[1])+'</li>').join('');
+  card(tag(rank)+'<div class="big">'+nn(avg)+'<small>%</small></div><div class="rows">'+rows+'</div><ul class="facts">'+facts+'</ul>',tr(BTN.again),title);
+}
+
+/* ───── loop ───── */
+let last=0;
+function frame(ts){
+  const dt=Math.min(.05,((ts-last)/1000)||0);last=ts;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  if(S){
+    if(!S.paused)S.update(dt);
+    S.draw();
+    const h=S.hud?S.hud():['',''];
+    $('#h1').textContent=h[0];$('#h2').textContent=h[1];
+    if(S.done&&S.onDone&&!S.fired){S.fired=true;const f=S.onDone;f()}
+  }
+  requestAnimationFrame(frame);
+}
+title();
+requestAnimationFrame(frame);
+})();
+</script>
+
+</body></html>
