@@ -52,10 +52,10 @@ export default function Home() {
         <div className="flex flex-col gap-10">
           <div className="md:flex">
             <div className="pb-2">
-              <h2 className="font-bold text-2xl pb-2">{t('whatIsOctoberWar')}</h2>
-              <p className="md:text-lg md:pr-5">
-                {t('whatIsOctoberWarText')}
-              </p>
+              <h2 className="font-bold text-2xl pb-2">
+                {t("whatIsOctoberWar")}
+              </h2>
+              <p className="md:text-lg md:pr-5">{t("whatIsOctoberWarText")}</p>
             </div>
             <img
               src="october war victory.jpg"
@@ -65,121 +65,92 @@ export default function Home() {
           </div>
           <div className="flex flex-col gap-5">
             <h2 className="text-2xl font-bold pb-2">
-              {t('howDidThatEvenBegin')}
+              {t("howDidThatEvenBegin")}
             </h2>
             <div className="flex flex-row gap-5">
-              <p className="w-fit text-sm md:text-lg">
-                {t('naksaText')}
-              </p>
+              <p className="w-fit text-sm md:text-lg">{t("naksaText")}</p>
               <div>
                 <figure className="w-fit md:w-max md:h-max">
-                  <img src="occupied parts of the middle east.jpg" alt="" />
+                  <img src="occupied parts of the middle east.jpg" />
                   <figcaption className="text-xs text-center">
-                    {t('occupiedPartsCaption')}
+                    {t("occupiedPartsCaption")}
                   </figcaption>
                 </figure>
               </div>
             </div>
             <h2 className="text-2xl font-bold pb-2">
-              {t('backgroundOfNaksa')}
+              {t("backgroundOfNaksa")}
             </h2>
             <div className="flex flex-row gap-5">
               <p className="w-fit text-sm md:text-lg">
-                {t('backgroundOfNaksaText')}
+                {t("backgroundOfNaksaText")}
               </p>
               <figure className="w-fit md:w-max md:h-max">
-                <img src="The former president Gamal Abdel Nasser.jpg" alt="" />
+                <img src="The former president Gamal Abdel Nasser.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('nasserCaption')}
+                  {t("nasserCaption")}
                 </figcaption>
               </figure>
             </div>
-            <h2 className="text-2xl font-bold pb-2">
-              {t('beginningOfWar')}
-            </h2>
+            <h2 className="text-2xl font-bold pb-2">{t("beginningOfWar")}</h2>
             <div className="flex flex-col md:flex-row gap-5">
               <p className="w-fit text-sm md:text-lg">
-                {t('beginningOfWarText')}
+                {t("beginningOfWarText")}
               </p>
               <figure className="w-fit md:w-max md:h-max">
-                <img
-                  src="destroyed Egyptian military aircraft on the tarmac of an airbase.jpg"
-                  alt=""
-                />
+                <img src="destroyed Egyptian military aircraft on the tarmac of an airbase.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('destroyedAircraftCaption')}
+                  {t("destroyedAircraftCaption")}
                 </figcaption>
               </figure>
             </div>
-            <h2 className="text-2xl font-bold pb-2">
-              {t('impactOfNaksa')}
-            </h2>
-            <p className="text-sm md:text-lg">
-              {t('impactOfNaksaText')}
-            </p>
+            <h2 className="text-2xl font-bold pb-2">{t("impactOfNaksa")}</h2>
+            <p className="text-sm md:text-lg">{t("impactOfNaksaText")}</p>
             <div className="flex flex-col md:flex-row gap-5">
               <p className="w-fit text-sm md:text-lg">
-                {t('nasserResignationText')}
+                {t("nasserResignationText")}
               </p>
               <figure className="w-fit md:w-100 md:h-max">
-                <img
-                  src="The Former Egyptian President Gamal Abdel Nasser delivering his resignation speech to the nation, following the Naksa.jpg"
-                  alt=""
-                />
+                <img src="The Former Egyptian President Gamal Abdel Nasser delivering his resignation speech to the nation, following the Naksa.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('nasserResignationCaption')}
+                  {t("nasserResignationCaption")}
                 </figcaption>
               </figure>
             </div>
             <video
               src={locale == "en" ? "sixday_war_en.mp4" : "sixday_war_ar.mp4"}
               controls
-            ></video>
+            />
           </div>
           <div className="flex flex-col gap-5 w-fit text-sm md:text-lg">
-            <h2 className="text-2xl font-bold pb-2">
-              {t('secondPhase')}
-            </h2>
-            <p>
-              {t('warOfAttritionIntro')}
-            </p>
+            <h2 className="text-2xl font-bold pb-2">{t("secondPhase")}</h2>
+            <p>{t("warOfAttritionIntro")}</p>
             <div className="flex flex-row">
-              <p className="w-fit">
-                {t('barLevText')}
-              </p>
+              <p className="w-fit">{t("barLevText")}</p>
               <figure className="w-fit md:w-100 md:h-max">
-                <img
-                  src="Egyptian army leaders planning for the october war.jpg"
-                  alt=""
-                />
+                <img src="Egyptian army leaders planning for the october war.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('armyLeadersCaption')}
+                  {t("armyLeadersCaption")}
                 </figcaption>
               </figure>
             </div>
             <div className="flex flex-row">
-              <p className="w-fit">
-                {t('attritionDetails')}
-              </p>
+              <p className="w-fit">{t("attritionDetails")}</p>
               <figure className="w-fit md:w-max md:h-max">
                 <img
                   src="Egyptian El-Sa'ka (Special Forces) commandos during the Battle of Ras El-Ash on June 30, 1967
 .jpg"
-                  alt=""
                 />
                 <figcaption className="text-xs text-center">
-                  {t('rasElAshCaption')}
+                  {t("rasElAshCaption")}
                 </figcaption>
               </figure>
             </div>
             <div className="flex flex-col items-center">
               <figure>
-                <img
-                  src="The Egyptian army establishing a position on the eastern bank of the Suez Canal after crossing into Sinai.jpg"
-                  alt=""
-                />
+                <img src="The Egyptian army establishing a position on the eastern bank of the Suez Canal after crossing into Sinai.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('easternBankCaption')}
+                  {t("easternBankCaption")}
                 </figcaption>
               </figure>
             </div>
@@ -190,70 +161,61 @@ export default function Home() {
                   : "War_of_Attrition_AR_dubbed.mp4"
               }
               controls
-            ></video>
+            />
           </div>
           <div className="flex flex-col gap-5 w-fit text-sm md:text-lg">
-            <h2 className="text-2xl font-bold pb-2">
-              {t('thirdPhase')}
-            </h2>
+            <h2 className="text-2xl font-bold pb-2">{t("thirdPhase")}</h2>
             <div className="flex flex-row gap-5">
-              <p className="w-fit text-sm md:text-lg">
-                {t('octoberWarIntro')}
-              </p>
+              <p className="w-fit text-sm md:text-lg">{t("octoberWarIntro")}</p>
               <figure className="w-fit md:w-max md:h-max">
-                <img src="Egyptian Air Force.jpg" alt="" />
+                <img src="Egyptian Air Force.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('airForceCaption')}
+                  {t("airForceCaption")}
                 </figcaption>
               </figure>
             </div>
             <div className="flex flex-row gap-5">
-              <p className="w-fit text-sm md:text-lg">
-                {t('crossingText')}
-              </p>
+              <p className="w-fit text-sm md:text-lg">{t("crossingText")}</p>
               <figure className="w-fit md:w-max md:h-max">
-                <img src="Egyptian Army Breaking the Bar Lev Line.jpg" alt="" />
+                <img src="Egyptian Army Breaking the Bar Lev Line.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('barLevCaption')}
+                  {t("barLevCaption")}
                 </figcaption>
               </figure>
             </div>
             <div className="flex flex-col gap-5">
               <div className="flex flex-row gap-5">
                 <p className="w-fit text-sm md:text-lg">
-                  {t('determinationText')}
+                  {t("determinationText")}
                 </p>
                 <figure className="w-fit md:w-max md:h-max">
-                  <img src="Egyptian tanks crossing to sinai.jpg" alt="" />
+                  <img src="Egyptian tanks crossing to sinai.jpg" />
                   <figcaption className="text-xs text-center">
-                    {t('tanksCaption')}
+                    {t("tanksCaption")}
                   </figcaption>
                 </figure>
               </div>
               <figure className="flex flex-col">
-                <img src="Egyptian army crossing the suez canal.jpg" alt="" />
+                <img src="Egyptian army crossing the suez canal.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('armyCrossingCaption')}
+                  {t("armyCrossingCaption")}
                 </figcaption>
               </figure>
             </div>
             <div className="flex flex-col md:flex-row gap-5">
-              <p className="w-fit">
-                {t('peaceText')}
-              </p>
+              <p className="w-fit">{t("peaceText")}</p>
               <figure>
-                <img
-                  src="The Former Egyptian President Anwar El Sadat signing the Camp David Accords.jpg"
-                  alt=""
-                />
+                <img src="The Former Egyptian President Anwar El Sadat signing the Camp David Accords.jpg" />
                 <figcaption className="text-xs text-center">
-                  {t('sadatCaption')}
+                  {t("sadatCaption")}
                 </figcaption>
               </figure>
             </div>
-            <p>
-              {t('conclusion')}
-            </p>
+            <p>{t("conclusion")}</p>
+            <video
+              src={locale == "en" ? "october_war_english_motion.mp4" : "october_war_arabic_motion.mp4"}
+              controls
+            />
           </div>
         </div>
       </section>
