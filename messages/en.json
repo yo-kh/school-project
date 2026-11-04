@@ -1,4 +1,9 @@
 {
+  "landing" : {
+    "title" :"Glory 73",
+    "explore" : "Welcome to the October 1973 Through Digital Eyes competition",
+    "header" : "let's Explore"
+  },
   "NavBar": {
     "title": "Glory 73"
   },

@@ -3,6 +3,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { Translate } from "../functions/translate";
 import { useEffect, useState } from "react";
 import SideBar from "./sidebar";
+import { usePathname } from "next/navigation"
+import Link from "next/link";
 
 export default function NavBar() {
     const buttonText = useLocale() == 'en' ? 'ar' : 'en'
@@ -11,6 +13,7 @@ export default function NavBar() {
     const [open, setOpen] = useState(false)
     const [animate, setReadyToAnimate] = useState(false)
     const t = useTranslations("NavBar")
+    const pathname = usePathname()
 
     useEffect(() => {
         let lastScrollY = window.scrollY
@@ -57,10 +60,18 @@ export default function NavBar() {
         };
     }, [open]);
 
+    if (pathname == '/') return(
+        <div className="fixed top-0 z-30 transition-all duration-700 flex w-full justify-between items-center p-5">
+            <button className={`uppercase text-lg ${isPastScreenHeight ? 'text-white border-white' : 'text-black border-black'} transition-all px-2 cursor-pointer rounded border-2`} onClick={Translate}>
+                        {buttonText}
+                    </button>
+        </div>
+    )
+
     return (
         <>
             <nav className={`fixed top-0 z-30 ${isVisible ? "translate-y-0" : "-translate-y-full"} ${isPastScreenHeight ? 'bg-black opacity-80' : ''} transition-all duration-700 flex w-full justify-between items-center p-5`}>
-                <a className="text-2xl font-bold bg-linear-to-b from-[#CE1126] via-[#FFFFFF] to-[#000000] bg-clip-text text-transparent" href="/">{t('title')}</a>
+                <Link className="text-2xl font-bold bg-linear-to-b from-[#CE1126] via-[#FFFFFF] to-[#000000] bg-clip-text text-transparent" href="/">{t('title')}</Link>
                 <div className="flex items-center gap-5">
                     <button className={`uppercase text-lg ${isPastScreenHeight ? 'text-white border-white' : 'text-black border-black'} transition-all px-2 cursor-pointer rounded border-2`} onClick={Translate}>
                         {buttonText}

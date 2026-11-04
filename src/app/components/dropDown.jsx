@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function DropDown({ placeholder, options}) {
     const [open, setOpen] = useState(false);
@@ -37,13 +38,13 @@ export default function DropDown({ placeholder, options}) {
                 }`}
             >
                 {Object.entries(options ?? {}).map(([key, value]) => (
-                    <a
+                    <Link
                         key={key}
                         className="cursor-pointer p-2 hover:bg-black/10"
                         href={value}
                     >
                         {key}
-                    </a>
+                    </Link>
                 ))}
             </div>
         </div>
