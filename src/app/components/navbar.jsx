@@ -66,8 +66,8 @@ export default function NavBar() {
                         {buttonText}
                     </button>
                     <div className="flex flex-row justify-center items-center">
-                        <img src="ministry_of_education.png" className="h-10 md:h-20"/>
-                        <img src="gharbia_education_directorate.png" className="h-15 md:h-30"/>
+                        <img src="ministry of education.png" className="h-10 md:h-20"/>
+                        <img src="gharbia education directorate.png" className="h-15 md:h-30"/>
                     </div>
         </div>
     )
